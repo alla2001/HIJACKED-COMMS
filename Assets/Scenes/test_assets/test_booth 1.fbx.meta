@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 3e28782ea4a331d4f961e09390f186c1
+guid: 19116819b9273f0419c2d049b0bc246f
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: booth
+    second: {fileID: 2100000, guid: dd13f9ab29bad024498b80d36ab9078b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: booth windows
+    second: {fileID: 2100000, guid: 5f827dd6a8c2cc244b21910787801e9b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

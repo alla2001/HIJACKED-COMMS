@@ -3,7 +3,17 @@ guid: 2aa3740d4d9d13341951e3a05fd09d23
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lev1 assets
+    second: {fileID: 2100000, guid: 6c2c4a2e3145b554aaadcbd2023d68a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: light
+    second: {fileID: 2100000, guid: 0bc6224d95daf2d43be6533edd1986bd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
