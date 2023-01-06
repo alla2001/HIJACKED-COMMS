@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3373365180923588630}
   - component: {fileID: -5159423532696428095}
   m_Layer: 0
-  m_Name: booth
+  m_Name: prefab_booth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

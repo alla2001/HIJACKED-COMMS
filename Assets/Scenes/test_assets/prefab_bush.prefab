@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8018915445637009781}
   m_Layer: 0
-  m_Name: bush
+  m_Name: prefab_bush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

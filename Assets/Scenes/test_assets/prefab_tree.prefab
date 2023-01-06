@@ -385,7 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3957700007171566244}
   m_Layer: 0
-  m_Name: tree
+  m_Name: prefab_tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
