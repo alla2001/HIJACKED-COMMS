@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Clicker : MonoBehaviour
@@ -15,7 +16,10 @@ public class Clicker : MonoBehaviour
 
 		InputManager.instance.InputMap.Camera.Click.performed += (i) =>
 		{
-           
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
 			RaycastHit hit;
 			if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, 10000f, groundLayer))
 			{

@@ -43,7 +43,7 @@ public class Shoot : GameAction
 		//owner.stats.Damage;
 		
 		if (shotsleft <= 0) return;
-		int accuracy = owner.stats.Accuracy;
+		int accuracy = owner.stats.Accuracy*5+30;
 		int damage = Random.Range(owner.stats.Damage, owner.stats.Damage+ 3);
 		Character target = CharacterManager.instance.GetCharacterOnCell(targetCell);
 		List<Obstical> covers = target.InCover();
@@ -67,12 +67,13 @@ public class Shoot : GameAction
 				}
 			}
 		}
-		if(Vector2Int.Distance(owner.posOnGrid, targetCell) <= owner.stats.Range)
+		if(Vector2Int.Distance(owner.posOnGrid, targetCell) > owner.stats.Range)
         {
 			accuracy = 0;
         }
-		Debug.Log(accuracy);
-		int r = Random.Range(0, 11);
+		Debug.Log("accuracy : " + accuracy);
+		int r = Random.Range(0, 101);
+		owner.transform.forward = GridManager.instance.GridToWorld(target.posOnGrid) - owner.transform.position; 
 		if (  target != null && r < accuracy)
         {
 		

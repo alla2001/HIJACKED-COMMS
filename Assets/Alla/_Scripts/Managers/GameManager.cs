@@ -66,7 +66,7 @@ public class GameManager : NetworkBehaviour
 			case GamePhase.Planning:
 				if (Tick - lastTransitionTick >= planningTime)
 				{
-					print("Heh1");
+				
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action1;
 					phaseText.text = "Playing :";
@@ -78,7 +78,7 @@ public class GameManager : NetworkBehaviour
 			case GamePhase.Action1:
 				if (CharacterManager.instance.HasAllCharactersFinishedActions())
 				{
-					print("Heh2");
+					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action2;
 					phaseText.text = "Playing :";
@@ -92,7 +92,7 @@ public class GameManager : NetworkBehaviour
 				if (CharacterManager.instance.HasAllCharactersFinishedActions())
 				{
 
-					print("Heh3");
+					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Planning;
 					phaseText.text = "Planning :";

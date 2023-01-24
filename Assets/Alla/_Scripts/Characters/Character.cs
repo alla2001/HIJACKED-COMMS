@@ -35,7 +35,7 @@ public class Character : Ticker
 	private GameAction currentAction;
 	float speed;
 	Vector2Int targetPos;
-
+	public Animator animator;
 	private void Start()
 	{
 		base.Start();
@@ -62,6 +62,8 @@ public class Character : Ticker
 		targetPos = pos;
 
 	}
+
+	
 	public List<Obstical> InCover()
     {
 
@@ -98,18 +100,31 @@ public class Character : Ticker
     {
 		if (RefrenceManager.gameManager.currentPhase == GameManager.GamePhase.Planning)
 			return;
-
+        if (DistanceToTarget()>0.1f)
+        {
+			animator.SetBool("Moving", true);
+        }
+        else
+        {
+			animator.SetBool("Moving", false);
+		}
 		Move();
-		if(finishedActions) return;
+	
+
+		if (finishedActions) return;
 		if (currentAction == null)
 			return;
 		currentAction.Update(this);
 	}
     public void Move()
     {
-		
+	
 		transform.position = Vector3.MoveTowards(transform.position, GridManager.instance.GridToWorld(posOnGrid), speed*Time.deltaTime);
-    }
+		Vector3 dir = GridManager.instance.GridToWorld(posOnGrid) - transform.position;
+		if (dir!=Vector3.zero)
+		transform.forward = GridManager.instance.GridToWorld(posOnGrid) - transform.position;
+
+	}
 	public override void OnTick(int Tick)
 	{
 		
