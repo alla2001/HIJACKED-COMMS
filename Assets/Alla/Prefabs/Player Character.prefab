@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3496492958622864262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7393588886231093813}
+  m_Layer: 0
+  m_Name: Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7393588886231093813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496492958622864262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.074, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8448954645864454770}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8448954644279537653
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +158,7 @@ RectTransform:
   m_Children:
   - {fileID: 8448954645210937741}
   m_Father: {fileID: 8448954645864454770}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -340,6 +370,7 @@ Transform:
   m_LocalScale: {x: 0.7608692, y: 0.7608692, z: 0.7608692}
   m_Children:
   - {fileID: 8448954644279537650}
+  - {fileID: 7393588886231093813}
   - {fileID: 8448954644324424236}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -361,14 +392,15 @@ MonoBehaviour:
   syncInterval: 0.1
   posOnGrid: {x: 0, y: 0}
   actionPointsLeft: 0
+  center: {fileID: 7393588886231093813}
   image: {fileID: 8448954646062777084}
   stats:
-    Movement: 10
-    Accuracy: 10
-    Range: 2
-    Damage: 10
-    Hp: 10
-    fireRate: 2
+    Movement: 6
+    Accuracy: 6
+    Range: 5
+    Damage: 6
+    Hp: 6
+  _finishedActions: 0
 --- !u!114 &4964382599337351149
 MonoBehaviour:
   m_ObjectHideFlags: 0

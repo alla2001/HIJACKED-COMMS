@@ -18,24 +18,13 @@ public class Move : GameAction
 	}
     public override void Do(Character owner, int Tick)
 	{
-		if (index + 1 > setPath.Count ) return;
-		if (GridManager.instance.CanMove(setPath[index].Position)) return;
-		owner.MoveTo(setPath[index].Position);
-		//if (Interactable.IsInteractable(setPath[index].Position))
-  //      {
-			
-
-		//}
-	
-		
-		index++;
 
 		
 	}
 
 	public override bool IsFinished(Character owner)
 	{
-		if (owner.posOnGrid == targetPosition || index + 1 > setPath.Count )
+		if (Vector3.Distance( owner.transform.position,GridManager.instance.GridToWorld( targetPosition))<0.2f )
 		{
 			return true;
 		}
@@ -53,8 +42,19 @@ public class Move : GameAction
 		base.Start(owner,Tick);
 		index = 0;
 		currentNode = setPath[index];
+		
 	}
+	public override  void Update(Character owner)
+    {
 
+		if (owner.DistanceToTarget() > 0.1f)
+			return;
+			if (index + 1 > setPath.Count) return;
+		if (GridManager.instance.CanMove(setPath[index].Position)) return;
+		float speed =(float) RefrenceManager.gameManager.playingTime * RefrenceManager.tickManager.tickTimeinSecond;
+		owner.MoveTo(setPath[index].Position,speed);
+		index++;
+	}
 	public override bool CanAssigne(Character playerCharacter,Vector2Int selectedCell)
 	{
         if (Vector2Int.Distance(playerCharacter.posOnGrid, selectedCell)>playerCharacter.stats.Movement)
@@ -78,7 +78,7 @@ public class Move : GameAction
 		Interactable inter = Interactable.IsInteractable(targetPosition);
 		if (inter!=null)
         {
-			inter.Interact();
+			inter.PreInteract();
         }
 		
 

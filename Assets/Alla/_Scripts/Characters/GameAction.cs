@@ -25,7 +25,7 @@ public abstract class GameAction
 	
 	}
 	public abstract void Do(Character owner, int Tick);
-   
+	public abstract void Update(Character owner);
 	public virtual void Start(Character owner, int Tick)
     {
 		lastTick=Tick;

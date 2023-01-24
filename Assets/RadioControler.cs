@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadioControler : MonoBehaviour
+public class RadioControler : SingletonMonoBehaviour<RadioControler>
 {
     Vector3 lastDirection;
     bool clicking;
     int song;
-    public void ChangeSong(MusicManager.Song song)
+    public void ChangeSong()
     {
-        RefrenceManager.musicManager.ChangeSong(song);
+        RefrenceManager.musicManager.ChangeSong((MusicManager.Song)song);
     }
 
     public void Update()
@@ -35,8 +35,5 @@ public class RadioControler : MonoBehaviour
         
 
     }
-    private void OnDestroy()
-    {
-        ChangeSong((MusicManager.Song)song);
-    }
+  
 }

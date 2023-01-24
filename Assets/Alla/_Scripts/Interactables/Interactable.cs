@@ -29,7 +29,10 @@ public class Interactable : GridObject
     {
 
     }
+    public virtual void PreInteract()
+    {
 
+    }
     private void Awake()
     {
         interactables.Add(this);
