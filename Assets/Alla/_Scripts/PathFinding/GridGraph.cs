@@ -63,21 +63,23 @@ public class GridGraph
     /// <summary>
     /// Returns a List of neighbouring Nodes
     /// </summary>
+    /// 
+    public List<Vector2Int> directions = new List<Vector2Int>()
+        {
+            new Vector2Int( -1, 0 ), // left
+            //new Vector2Int(-1, 1 ),  // top-left, comment it out for 4-direction movement
+            new Vector2Int( 0, 1 ),  // top
+            //new Vector2Int( 1, 1 ),  // top-right, comment it out for 4-direction movement
+            new Vector2Int( 1, 0 ),  // right
+            //new Vector2Int( 1, -1 ), // bottom-right, comment it out for 4-direction movement
+            new Vector2Int( 0, -1 ), // bottom
+            //new Vector2Int( -1, -1 ) // bottom-left, comment it out for 4-direction movement
+        };
     public List<Node> Neighbours(Node n)
     {
         List<Node> results = new List<Node>();
 
-        List<Vector2Int> directions = new List<Vector2Int>()
-        {
-            new Vector2Int( -1, 0 ), // left
-            new Vector2Int(-1, 1 ),  // top-left, comment it out for 4-direction movement
-            new Vector2Int( 0, 1 ),  // top
-            new Vector2Int( 1, 1 ),  // top-right, comment it out for 4-direction movement
-            new Vector2Int( 1, 0 ),  // right
-            new Vector2Int( 1, -1 ), // bottom-right, comment it out for 4-direction movement
-            new Vector2Int( 0, -1 ), // bottom
-            new Vector2Int( -1, -1 ) // bottom-left, comment it out for 4-direction movement
-        };
+        
 
         foreach (Vector2Int v in directions)
         {

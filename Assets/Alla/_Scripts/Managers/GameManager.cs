@@ -7,9 +7,11 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
 	public int planningTime = 15;
+	public int playingTime = 5;
 	public UnityAction startPlaying;
 	public UnityAction startPlanning;
 	public TextMeshProUGUI phaseText;
+	public int TimeLeft { get; private set; }
 	public enum GamePhase
 	{
 		Planning, Action1,Action2
@@ -58,11 +60,13 @@ public class GameManager : NetworkBehaviour
 	}
     public void CheckTransferState(int Tick)
 	{
+		
 		switch (currentPhase)
 		{
 			case GamePhase.Planning:
 				if (Tick - lastTransitionTick >= planningTime)
 				{
+				
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action1;
 					phaseText.text = "Playing :";
@@ -74,7 +78,7 @@ public class GameManager : NetworkBehaviour
 			case GamePhase.Action1:
 				if (CharacterManager.instance.HasAllCharactersFinishedActions())
 				{
-
+					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action2;
 					phaseText.text = "Playing :";
@@ -88,6 +92,7 @@ public class GameManager : NetworkBehaviour
 				if (CharacterManager.instance.HasAllCharactersFinishedActions())
 				{
 
+					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Planning;
 					phaseText.text = "Planning :";

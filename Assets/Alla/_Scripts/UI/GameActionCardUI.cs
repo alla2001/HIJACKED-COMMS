@@ -10,16 +10,26 @@ public class GameActionCardUI : MonoBehaviour
     private void Start()
     {
         RefrenceManager.gameManager.startPlanning +=Kill;
-        RefrenceManager.gameManager.startPlaying += () => { removeBtn.SetActive(false); };
+        RefrenceManager.gameManager.startPlaying +=OnPlay;
     }
     void Kill()
     {
         RefrenceManager.gameManager.startPlanning -= Kill;
+        RefrenceManager.gameManager.startPlaying -= OnPlay;
         Destroy(gameObject);
+    }
+    public void OnPlay()
+    {
+        removeBtn.SetActive(false);
     }
     public void RemoveCard()
     {
         ActionManager.instance.RemoveAction(this);
-        Destroy(gameObject);
+        Kill();
+        
+    }
+    private void OnDestroy()
+    {
+        Kill();
     }
 }

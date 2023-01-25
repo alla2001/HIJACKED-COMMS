@@ -35,22 +35,35 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
 		//	graph.Walls.Add(new Vector2((int)obs.transform.position.x, (int) obs.transform.position.z));
 		//}
 	}
+	public List<Vector2Int> GetCircle(Vector2Int center, int radius)
+	{
+		List<Vector2Int> cells = new List<Vector2Int>();
+		Vector2Int startPos= new Vector2Int(center.x - radius, center.y - radius);
+		for (int x = 0; x < radius * 2 + 1; x++)
+		{
+			for (int y = 0; y < radius * 2 + 1; y++)
+			{
+				cells.Add(new Vector2Int(startPos.x + x, startPos.y + y));
+			}
 
+		}
+		return cells;
+	}
 	public bool PathBetween(Vector2Int start, Vector2Int end, out List<Node> path)
 	{
-		List<Node> tempPath = AStar.Search(grid, grid.Grid[start.x, start.y], grid.Grid[end.x, end.y]);
+	List<Node> tempPath = AStar.Search(grid, grid.Grid[start.x, start.y], grid.Grid[end.x, end.y]);
 	
-		_end = GridToWorld(end);
-		_start = GridToWorld(tempPath[0].Position);
+	_end = GridToWorld(end);
+	_start = GridToWorld(tempPath[0].Position);
 
-		lastPath = tempPath;
-		if (tempPath.Count > 0)
-		{
-			path = tempPath;
-			return true;
-		}
-		path = null;
-		return false;
+	lastPath = tempPath;
+	if (tempPath.Count > 0)
+	{
+		path = tempPath;
+		return true;
+	}
+	path = null;
+	return false;
 	}
 
 	public  Vector3 GridToWorld(Vector2Int pos)

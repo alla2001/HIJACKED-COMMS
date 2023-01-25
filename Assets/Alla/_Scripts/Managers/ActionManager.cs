@@ -32,6 +32,7 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 	public void SelectAction(Actions action)
 	{
 		if (RefrenceManager.gameManager.currentPhase != GameManager.GamePhase.Planning) return;
+		if (selectedAction != null) selectedAction.UnHilight();
 
 		currentActionType = action;
 		switch (action)
@@ -69,7 +70,7 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 	}
 	public bool AssigneSelectedAction(Character character,Vector2Int selecetedCell)
 	{
-		Debug.Log("Hilight");
+		
 		if (selectedAction == null) return false;
 		selectedAction.UnHilight();
 		if (RefrenceManager.gameManager.currentPhase != GameManager.GamePhase.Planning) return false;
