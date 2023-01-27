@@ -6,6 +6,7 @@ using Mirror;
 public class PlayerSetup : NetworkBehaviour
 {
     public Character character;
+    public static Character playerCharacter;
     private void Awake()
     {
         character= GetComponent<Character>();
@@ -16,7 +17,7 @@ public class PlayerSetup : NetworkBehaviour
         {
             InputManager.instance.clicker.assigendCharacter = character;
             InputManager.instance.moveTheCamera.assosiatedCharacter = character;
-
+            playerCharacter = character;
         }
 
     }

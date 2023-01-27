@@ -5,7 +5,10 @@ public class Node : IComparable<Node>
 {
     public Vector2Int Position;
     public float Priority;
-
+    public Node()
+    {
+        Position = new Vector2Int(0, 0);
+    }
     public Node(int x, int y)
     {
         Position = new Vector2Int(x, y);

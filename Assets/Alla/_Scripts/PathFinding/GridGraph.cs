@@ -7,7 +7,7 @@ public class GridGraph
     public int Height;
 
     public Node[,] Grid;
-    public List<GridType> Walls = new List<GridType>();
+    //public List<GridType> Walls = new List<GridType>();
     public List<Vector2Int> Forests;
 
     public class GridType
@@ -16,13 +16,13 @@ public class GridGraph
 
     }
    
-    public void AddObstacles(List<Vector2Int> points)
-    {
-        foreach (Vector2Int point in points)
-        {
-            Walls.Add(new GridType { pos = point});
-        }
-    }
+    //public void AddObstacles(List<Vector2Int> points)
+    //{
+    //    foreach (Vector2Int point in points)
+    //    {
+    //        Walls.Add(new GridType { pos = point});
+    //    }
+    //}
     public GridGraph(int w, int h)
     {
         Width = w;
@@ -56,8 +56,9 @@ public class GridGraph
     /// </summary>
     public bool Passable(Vector2Int id)
     {
-        if (Walls.FirstOrDefault((e) => { return e.pos == id; })!=null) return false;
-        else return true;
+        Obstical obs = Obstical.GetObstacl(id);
+        if (obs != null && obs.coverType ==Obstical.CoverType.Wall) return false;
+        return true;
     }
 
     /// <summary>

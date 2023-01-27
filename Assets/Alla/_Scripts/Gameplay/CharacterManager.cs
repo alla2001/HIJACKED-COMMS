@@ -19,6 +19,7 @@ public class CharacterManager : SingletonMonoBehaviour<CharacterManager>
 
 		return true;
 	}
+	
 	public void OnCharacterFinishedActions()
     {
 		foreach (Character _chara in allCharacters)

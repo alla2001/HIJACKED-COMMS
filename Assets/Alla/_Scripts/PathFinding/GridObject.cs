@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class GridObject : MonoBehaviour
+using Mirror;
+public class GridObject : NetworkBehaviour
 {
+    [SyncVar]
    public Vector2Int posOnGrid;
 
     public void Start()

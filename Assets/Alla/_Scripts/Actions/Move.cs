@@ -13,7 +13,8 @@ public class Move : GameAction
 	
     public override bool Removed(Character owner)
     {
-		owner.ghost.posOnGrid = startPosition;
+		owner.ghost.Move(startPosition);
+
 		return GridShaderBinder.gridHilights.Remove(hilight);
 	}
     public override void Do(Character owner, int Tick)
@@ -25,6 +26,15 @@ public class Move : GameAction
 	public override bool IsFinished(Character owner)
 	{
 		if (Vector3.Distance( owner.transform.position,GridManager.instance.GridToWorld( targetPosition))<0.2f )
+		{
+			return true;
+		}
+		GridManager.instance.PathBetween(startPosition, targetPosition, out setPath);
+		if (setPath==null)
+        {
+			return true;
+		}
+		if (Obstical.finishedMoving && !GridManager.instance.CanMove(setPath[index].Position))
 		{
 			return true;
 		}
@@ -50,14 +60,19 @@ public class Move : GameAction
 		if (owner.DistanceToTarget() > 0.1f)
 			return;
 			if (index + 1 > setPath.Count) return;
-		if (GridManager.instance.CanMove(setPath[index].Position)) return;
+		if (!GridManager.instance.CanMove(setPath[index].Position)) return;
+		Interactable inter = Interactable.IsInteractable(setPath[index].Position);
+		if (inter != null)
+		{
+			inter.Interact();
+		}
 		float speed =(float) RefrenceManager.gameManager.playingTime * RefrenceManager.tickManager.tickTimeinSecond;
 		owner.MoveTo(setPath[index].Position,speed);
 		index++;
 	}
 	public override bool CanAssigne(Character playerCharacter,Vector2Int selectedCell)
 	{
-        if (Vector2Int.Distance(playerCharacter.posOnGrid, selectedCell)>playerCharacter.stats.Movement)
+        if (Vector2Int.Distance(playerCharacter.ghost.posOnGrid, selectedCell)>playerCharacter.stats.Movement)
         {
 			return false;
 		}
@@ -65,32 +80,44 @@ public class Move : GameAction
         {
 			return false;
 		}
+        if (Obstical.GetObstacl(selectedCell))
+        {
+			return false;
+        }
 		return true;
        
 		
 	}
 
-    public override void initilize(Character owner)
+    public override void OnAddServer(Character owner)
     {
         CalculatePath();
-		Hilight(owner, targetPosition);
-		owner.ghost.posOnGrid = targetPosition;
-		Interactable inter = Interactable.IsInteractable(targetPosition);
-		if (inter!=null)
-        {
-			inter.PreInteract();
-        }
 		
+	
+
+
 
 	}
-
-    public override void Hilight(Character playerCharacter, Vector2Int selectedCell)
+	public override void OnAddClient(Character owner)
     {
-		
+		Hilight(owner, targetPosition);
+		Interactable inter = Interactable.IsInteractable(targetPosition);
+		if (inter != null)
+		{
+			inter.PreInteract();
+		}
+		owner.ghost.Move(targetPosition);
+	}
+    public override void Hilight(Character playerCharacter, Vector2Int selectedCell)
+	{
+		UnHilight();
+		if (Vector2Int.Distance(playerCharacter.ghost.posOnGrid, selectedCell) > playerCharacter.stats.Movement) return;
 		if (Obstical.IsObstacl(selectedCell)) return;
-		base.Hilight(playerCharacter, selectedCell);
+	
 
 		GridManager.instance.PathBetween(playerCharacter.ghost.posOnGrid, selectedCell, out setPath);
+		if (setPath == null) return;
+		base.Hilight(playerCharacter, selectedCell);
 		hilight = new GridHilight();
 		hilight.color = Color.yellow;
 		foreach (Node node in setPath)

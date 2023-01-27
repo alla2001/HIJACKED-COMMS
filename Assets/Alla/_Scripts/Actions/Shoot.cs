@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+[System.Serializable]
 public class Shoot : GameAction
 {
 	public Vector2Int targetCell;
@@ -41,7 +42,8 @@ public class Shoot : GameAction
 		//owner.stats.Accuracy;
 
 		//owner.stats.Damage;
-		
+
+		Debug.Log("Shoot");
 		if (shotsleft <= 0) return;
 		int accuracy = owner.stats.Accuracy*5+30;
 		int damage = Random.Range(owner.stats.Damage, owner.stats.Damage+ 3);
@@ -56,7 +58,8 @@ public class Shoot : GameAction
 				//cover.HilightPos(target.posOnGrid);
 				if (cover.IsCoverdShootingPosition(owner.posOnGrid,target.posOnGrid) )
 				{
-                    if (cover.coverType==Obstical.Type.Wall)
+					
+					if (cover.coverType==Obstical.CoverType.Wall)
                     {
 						accuracy = (int)(accuracy * 0.5f);
 					}
@@ -67,6 +70,7 @@ public class Shoot : GameAction
 				}
 			}
 		}
+		
 		if(Vector2Int.Distance(owner.posOnGrid, targetCell) > owner.stats.Range)
         {
 			accuracy = 0;
@@ -96,7 +100,7 @@ public class Shoot : GameAction
 		return;
 	}
 
-    public override void initilize(Character owner)
+    public override void OnAddServer(Character owner)
     {
 	
 		if (gh != null) { GridShaderBinder.gridHilights.Remove(gh); }

@@ -36,10 +36,10 @@ public class FakeAI : Ticker
     {
         switch (fakeActions[index].action)
         { case FakeActionEnum.Shoot:
-                character.AddAction(new Shoot { targetCell = fakeActions[index].pos });
+                character.AddActionShoot(new Shoot { targetCell = fakeActions[index].pos });
                 break;
             case FakeActionEnum.Move:
-                character.AddAction(new Move { startPosition=character.posOnGrid,targetPosition= fakeActions[index].pos });
+                character.AddActionMove(new Move { startPosition=character.posOnGrid,targetPosition= fakeActions[index].pos });
                 break;
          
         }

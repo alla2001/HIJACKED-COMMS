@@ -9,14 +9,17 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 	public GameObject actionUIPrefab;
 	public Transform actionsListHolder;
 	Actions currentActionType;
+	public static List<GameAction> actionHilights = new List<GameAction>();
 	public enum Actions
 	{
-		Move,Shoot
+		Move,Shoot,Guard
 	}
     private void Start()
     {
 		RefrenceManager.gameManager.startPlanning += () => 
-		{ 
+		{
+
+			if (selectedAction != null) selectedAction.UnHilight();
 			selectedAction = null;
 			
 		};
@@ -43,6 +46,9 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 				break;
 				case Actions.Shoot:
 				selectedAction = new Shoot();
+				break;
+			case Actions.Guard:
+				selectedAction= new Guard();
 				break;
 		}
 		
@@ -85,19 +91,35 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 					move.startPosition = character.ghost.posOnGrid;
 					move.targetPosition = selecetedCell;
 					name = "Move";
+					
+					character.AddActionMove(move);
+
 
 					break;
+
                 case Actions.Shoot:
 					Shoot shoot = selectedAction as Shoot;
 					shoot.targetCell = selecetedCell;
 					name = "Shoot";
-
+			
+					character.AddActionShoot(shoot);
 					break;
-                default:
+
+				case Actions.Guard:
+
+					Guard guard = selectedAction as Guard;
+				
+					name = "Guard";
+					character.AddActionGuard(guard);
+
+                    
+						
+					
+					break;
+				default:
                     break;
             }
-            character.AddAction(selectedAction);
-		
+			character.InitilizeAction(selectedAction);
 			GameObject newAction = Instantiate(actionUIPrefab, actionsListHolder);
 			newAction.GetComponentInChildren<TextMeshProUGUI>().text = name ;
 			
@@ -115,7 +137,14 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
     public bool UnAssigneAction(Character character, GameAction action)
     {
 		if (RefrenceManager.gameManager.currentPhase != GameManager.GamePhase.Planning) return false;
-		character.RemoveAction(action);
+		character.RemoveAction();
 		return true;
     }
+
+	public void ClearActions()
+    {
+		if (RefrenceManager.gameManager.currentPhase != GameManager.GamePhase.Planning) return;
+		PlayerSetup.playerCharacter.ClearActions();
+
+	}
 }

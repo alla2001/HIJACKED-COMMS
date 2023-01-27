@@ -25,6 +25,7 @@ public class GameManager : NetworkBehaviour
 
 	private int lastTransitionTick = 0;
 	bool called;
+	bool started;
     private void Awake()
     {
 		if (RefrenceManager.gameManager == null)
@@ -36,13 +37,15 @@ public class GameManager : NetworkBehaviour
 		if (NetworkManager.singleton.numPlayers  >= playersNeeded && isServer)
 		{
 			RefrenceManager.tickManager.UnPause();
+			started = true;
 		}
 		NetworkManager.singleton.transport.OnServerConnected+= (e) => 
 		{
 			
-			if (NetworkManager.singleton.numPlayers+1 >= playersNeeded && isServer)
+			if (NetworkManager.singleton.numPlayers+1 >= playersNeeded && isServer &&!started)
 			{
 				RefrenceManager.tickManager.UnPause();
+				started = true;
 			}
 		};
       
@@ -71,6 +74,7 @@ public class GameManager : NetworkBehaviour
 					currentPhase = GamePhase.Action1;
 					phaseText.text = "Playing :";
 					startPlaying?.Invoke();
+					SetState(currentPhase);
 				}
 
 				break;
@@ -83,7 +87,7 @@ public class GameManager : NetworkBehaviour
 					currentPhase = GamePhase.Action2;
 					phaseText.text = "Playing :";
 					CharacterManager.instance.RestForAction();
-
+					SetState(currentPhase);
 				}
 				
 				
@@ -92,12 +96,45 @@ public class GameManager : NetworkBehaviour
 				if (CharacterManager.instance.HasAllCharactersFinishedActions())
 				{
 
-					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Planning;
 					phaseText.text = "Planning :";
 					startPlanning?.Invoke();
+					SetState(currentPhase);
 				}
+
+
+				break;
+
+			default:
+				break;
+		}
+	}
+	[ClientRpc]
+	public void SetState(GamePhase gamePhase)
+    {
+		currentPhase = gamePhase;
+		switch (currentPhase)
+		{
+			case GamePhase.Action1:
+
+
+				phaseText.text = "Action 1 :";
+				startPlaying?.Invoke();
+					
+
+				break;
+
+			case GamePhase.Action2:
+
+				phaseText.text = "Action 2 :";
+
+				break;
+			case GamePhase.Planning:
+				
+					phaseText.text = "Planning :";
+					startPlanning?.Invoke();
+				
 
 
 				break;

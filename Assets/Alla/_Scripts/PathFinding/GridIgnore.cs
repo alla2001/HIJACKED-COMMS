@@ -38,7 +38,7 @@ public class GridIgnore : MonoBehaviour
 
         }
 
-        GridManager.instance.grid.Walls.AddRange(points);
+        //GridManager.instance.grid.Walls.AddRange(points);
 
 
         //gh = new GridHilight { color = new Color(0, 0, 0, 0), points = points };
@@ -75,7 +75,7 @@ public class GridIgnore : MonoBehaviour
 
         }
         
-            GridManager.instance.grid.Walls.AddRange(points);
+            //GridManager.instance.grid.Walls.AddRange(points);
 
 
         //gh = new GridHilight { color = new Color(0, 0, 0, 0), points = points };
