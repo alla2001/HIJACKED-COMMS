@@ -3927,7 +3927,7 @@ PrefabInstance:
     - target: {fileID: 4964382599337351149, guid: ece9177f0d5b11547884a45a9728dc02,
         type: 3}
       propertyPath: serverOnly
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8448954645864454761, guid: ece9177f0d5b11547884a45a9728dc02,
         type: 3}
@@ -3989,8 +3989,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7811985177697100317, guid: ece9177f0d5b11547884a45a9728dc02, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ece9177f0d5b11547884a45a9728dc02, type: 3}
+--- !u!1 &1003038633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8448954645864454761, guid: ece9177f0d5b11547884a45a9728dc02,
+    type: 3}
+  m_PrefabInstance: {fileID: 1003038632}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1003038634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8448954645864454774, guid: ece9177f0d5b11547884a45a9728dc02,
+    type: 3}
+  m_PrefabInstance: {fileID: 1003038632}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003038633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3764894b27735a4b8681aeb83e4cf97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1003038635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003038633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c1ef9d3c7dbcc248bb7c5b51dd43a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chillum: {fileID: 1003038634}
+  rangeForDetection: 5
+  Randomness: 5
 --- !u!1 &1006951199
 GameObject:
   m_ObjectHideFlags: 0
@@ -4773,6 +4807,7 @@ GameObject:
   - component: {fileID: 1275436719}
   - component: {fileID: 1275436718}
   - component: {fileID: 1275436716}
+  - component: {fileID: 1275436715}
   m_Layer: 0
   m_Name: Offline Managers
   m_TagString: Untagged
@@ -4794,6 +4829,19 @@ Transform:
   m_Father: {fileID: 522788706}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1275436715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275436713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41fe1fd3bbbafe44b86efadba3b63e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleMaterial: {fileID: 2100000, guid: fdaa262dc5dc2ab47bfa8477855050be, type: 2}
 --- !u!114 &1275436716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4870,6 +4918,7 @@ MonoBehaviour:
   testMat: {fileID: 2100000, guid: 5aca31d94fe784d4288f5c46e1e6ee3f, type: 2}
   movementManager: {fileID: 1275436718}
   GridColor: {r: 0.9853311, g: 1, b: 0.7122642, a: 0}
+  coverColor: {r: 1, g: 0, b: 0, a: 0.69411767}
   cursorPos: {x: -1, y: -1}
 --- !u!1 &1331358847
 GameObject:

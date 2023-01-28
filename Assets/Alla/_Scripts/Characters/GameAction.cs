@@ -29,6 +29,8 @@ public abstract class GameAction
 	public virtual void OnAddClient(Character owner) { }
 	public abstract void Do(Character owner, int Tick);
 	public abstract void Update(Character owner);
+	public virtual void SelectionHilight(Character owner) { }
+	public virtual void SelectionUnHilight(){}
 	public virtual void Start(Character owner, int Tick)
     {
 		lastTick=Tick;

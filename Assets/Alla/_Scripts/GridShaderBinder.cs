@@ -9,6 +9,7 @@ public class GridShaderBinder : SingletonMonoBehaviour<GridShaderBinder>
 	public Material testMat;
 	public GridManager movementManager;
 	public Color GridColor;
+	public Color coverColor;
 	public static List<GridHilight> gridHilights =new List<GridHilight>();
 	public Vector2Int cursorPos = new Vector2Int(-1,-1);
 	private void Start()
@@ -35,6 +36,15 @@ public class GridShaderBinder : SingletonMonoBehaviour<GridShaderBinder>
 			{
 				
 				Color color;
+
+                if (Obstical.IsObstacl(new Vector2Int(x, y)))
+                {					
+					bytes.Add((byte)(coverColor.a * 255));
+					bytes.Add((byte)(coverColor.r * 255));
+					bytes.Add((byte)(coverColor.g * 255));
+					bytes.Add((byte)(coverColor.b * 255));
+					continue;
+				}
 				if(cursorPos == new Vector2Int(x, y))
 				{
 					bytes.Add((byte)(255));

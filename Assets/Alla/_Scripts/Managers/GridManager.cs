@@ -24,7 +24,8 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
 	{
 
 		Obstical obs = Obstical.GetObstacl(cell);
-		if (obs != null ) return false;
+		Character chara= CharacterManager.instance.GetCharacterOnCell(cell);
+		if (obs != null || chara!=null) return false;
 		return true;
 	}
 	private void Start()

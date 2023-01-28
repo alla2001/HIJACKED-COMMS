@@ -34,7 +34,7 @@ public class MusicManager : NetworkBehaviour
     public void ChangeSong(Song newSong)
     {
         currentSong = newSong;
-        OnChangeSong.Invoke(currentSong);
+        OnChangeSong?.Invoke(currentSong);
         ChangeSongCommand();
     }
     [ClientRpc]

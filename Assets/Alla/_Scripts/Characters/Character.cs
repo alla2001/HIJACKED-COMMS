@@ -45,6 +45,21 @@ public class Character : Ticker
 	float speed;
 	Vector2Int targetPos;
 	public Animator animator;
+	public List<GameAction> Debugactions = new List<GameAction>();
+	
+	bool ready;
+
+	[Command]
+	public void ReadyCommand()
+    {
+		ready=true;
+        foreach (Character  chara in CharacterManager.instance.allCharacters)
+        {
+			if (!chara.ready) return;
+        }
+
+
+	}
 	private void Start()
 	{
 		base.Start();
@@ -123,7 +138,7 @@ public class Character : Ticker
 	
 
 		if (finishedActions) return;
-		if (currentAction == null)
+		if (currentAction == null || !currentAction.started)
 			return;
 		currentAction.Update(this);
 	}
@@ -223,7 +238,6 @@ public class Character : Ticker
 		_finishedActions = true;
 	}
 	private void OnDestroy()
-		
 	{
 		base.OnDestroy();
 		if(CharacterManager.instance.allCharacters!=null)
@@ -332,6 +346,16 @@ public class Character : Ticker
 		action.Removed(this);
         
 		actionPointsLeft++;
+	}
+	public void AddActionAIServer(GameAction action)
+    {
+        if (isServer)
+        {
+			actions.Enqueue(action);
+			action.OnAddServer(this);
+			actionPointsLeft--;
+		}
+		
 	}
 	public void ClearActions()
     {

@@ -8,7 +8,7 @@ public class Shoot : GameAction
 	public Vector2Int targetCell;
 	private int shotsleft = 1;
 	public GridHilight gh;
-
+	Character target;
     public override void Update(Character owner)
     {
     }
@@ -43,61 +43,8 @@ public class Shoot : GameAction
 
 		//owner.stats.Damage;
 
-		Debug.Log("Shoot");
-		if (shotsleft <= 0) return;
-		int accuracy = owner.stats.Accuracy*5+30;
-		int damage = Random.Range(owner.stats.Damage, owner.stats.Damage+ 3);
-		Character target = CharacterManager.instance.GetCharacterOnCell(targetCell);
-		List<Obstical> covers = target.InCover();
-
-		if (covers.Count>0)
-        {
-			
-			foreach (Obstical cover in covers)
-			{
-				//cover.HilightPos(target.posOnGrid);
-				if (cover.IsCoverdShootingPosition(owner.posOnGrid,target.posOnGrid) )
-				{
-					
-					if (cover.coverType==Obstical.CoverType.Wall)
-                    {
-						accuracy = (int)(accuracy * 0.5f);
-					}
-                    else
-                    {
-						accuracy = (int)(accuracy * 0.25f);
-					}
-				}
-			}
-		}
 		
-		if(Vector2Int.Distance(owner.posOnGrid, targetCell) > owner.stats.Range)
-        {
-			accuracy = 0;
-        }
-		Debug.Log("accuracy : " + accuracy);
-		int r = Random.Range(0, 101);
-		owner.transform.forward = GridManager.instance.GridToWorld(target.posOnGrid) - owner.transform.position; 
-		if (  target != null && r < accuracy)
-        {
 		
-          
-				target.Damage(damage);
-				RefrenceManager.notificationManager.NotfyOnCell(targetCell, (-damage).ToString(), Color.yellow);
-			
-			
-			
-			
-        }
-        else
-        {
-			RefrenceManager.notificationManager.NotfyOnCell(targetCell, "Miss", Color.red);
-		}
-	
-		shotsleft--;
-
-		
-		return;
 	}
 
     public override void OnAddServer(Character owner)
@@ -119,10 +66,68 @@ public class Shoot : GameAction
 
 	public override void Start(Character owner, int Tick)
 	{
-		
+		target = CharacterManager.instance.GetCharacterOnCell(targetCell);
 		base.Start(owner, Tick);
-		
-		return ;
+		if (shotsleft <= 0) return;
+		int accuracy = owner.stats.Accuracy * 5 + 30;
+		int damage = Random.Range(owner.stats.Damage, owner.stats.Damage + 3);
+
+		if (target == null)
+		{
+			shotsleft = 0;
+			return;
+		}
+		List<Obstical> covers = target.InCover();
+
+		if (covers.Count > 0)
+		{
+
+			foreach (Obstical cover in covers)
+			{
+				//cover.HilightPos(target.posOnGrid);
+				if (cover.IsCoverdShootingPosition(owner.posOnGrid, target.posOnGrid))
+				{
+
+					if (cover.coverType == Obstical.CoverType.Wall)
+					{
+						accuracy = (int)(accuracy * 0.5f);
+					}
+					else
+					{
+						accuracy = (int)(accuracy * 0.25f);
+					}
+				}
+			}
+		}
+
+		if (Vector2Int.Distance(owner.posOnGrid, targetCell) > owner.stats.Range)
+		{
+			accuracy = 0;
+		}
+		Debug.Log("accuracy : " + accuracy);
+		int r = Random.Range(0, 101);
+		owner.transform.forward = GridManager.instance.GridToWorld(target.posOnGrid) - owner.transform.position;
+		if (target != null && r < accuracy)
+		{
+
+
+			target.Damage(damage);
+			RefrenceManager.notificationManager.NotfyOnCell(targetCell, (-damage).ToString(), Color.yellow);
+
+
+
+
+		}
+		else
+		{
+			RefrenceManager.notificationManager.NotfyOnCell(targetCell, "Miss", Color.red);
+		}
+
+		shotsleft--;
+
+
+		return;
+	
 	}
 
     public override void Hilight(Character playerCharacter, Vector2Int selectedCell)

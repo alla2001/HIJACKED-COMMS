@@ -8,7 +8,7 @@ public class enemyBT : BehaveTree
     public Character chillum;
     public int rangeForDetection;
     public int Randomness;
-    
+  
     protected override BehaviourNode SetupTree()
     {
         BehaviourNode root = new BehaviourSelector(new List<BehaviourNode>

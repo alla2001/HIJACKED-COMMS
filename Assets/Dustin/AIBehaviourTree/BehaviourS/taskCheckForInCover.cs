@@ -45,7 +45,7 @@ public class taskCheckForInCover : BehaviourNode
             {
                 moveaction.startPosition = charac.posOnGrid;
                 moveaction.targetPosition = randomPosition;
-                charac.AddAction(moveaction);
+                charac.AddActionAIServer(moveaction);
             }
         }
         state = BehaviourNodeState.FAILURE;

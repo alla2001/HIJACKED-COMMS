@@ -43,6 +43,7 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 
 			case Actions.Move:
 				selectedAction = new Move();
+				
 				break;
 				case Actions.Shoot:
 				selectedAction = new Shoot();
@@ -68,17 +69,19 @@ public class ActionManager : SingletonMonoBehaviour<ActionManager>
 	{
 		if (selectedAction == null) return;
 		selectedAction.Hilight(character,selecetedCell);
-    }
+		selectedAction.SelectionHilight(character);
+	}
 	public void UnHighLightSelectedAction()
 	{
 		if (selectedAction == null) return;
 		selectedAction.UnHilight();
+		selectedAction.SelectionUnHilight();
 	}
 	public bool AssigneSelectedAction(Character character,Vector2Int selecetedCell)
 	{
 		
 		if (selectedAction == null) return false;
-		selectedAction.UnHilight();
+		selectedAction.SelectionUnHilight();
 		if (RefrenceManager.gameManager.currentPhase != GameManager.GamePhase.Planning) return false;
 		if (character.actionPointsLeft <= 0) return false;
 		string name ="action";

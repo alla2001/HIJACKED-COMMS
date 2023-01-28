@@ -10,7 +10,7 @@ public class Move : GameAction
 	private Node currentNode;
 	private int index;
 	private GridHilight hilight;
-	
+	bool interacting;
     public override bool Removed(Character owner)
     {
 		owner.ghost.Move(startPosition);
@@ -29,12 +29,15 @@ public class Move : GameAction
 		{
 			return true;
 		}
-		GridManager.instance.PathBetween(startPosition, targetPosition, out setPath);
+		if (!GridManager.instance.PathBetween(startPosition, targetPosition, out setPath))
+		{
+			return true;
+		}
 		if (setPath==null)
         {
 			return true;
 		}
-		if (Obstical.finishedMoving && !GridManager.instance.CanMove(setPath[index].Position))
+		if (Obstical.finishedMoving && !GridManager.instance.CanMove(targetPosition))
 		{
 			return true;
 		}
@@ -46,8 +49,16 @@ public class Move : GameAction
 		
 		GridManager.instance.PathBetween(startPosition, targetPosition, out setPath);
 	}
+    public override void SelectionHilight(Character owner)
+    {
+		CircleHilighter.instance.HilightCircle(GridManager.instance.GridToWorld(owner.ghost.posOnGrid), owner.stats.Movement * GridManager.instance.gridSize);
+	}
+    public override void SelectionUnHilight()
+    {
+		CircleHilighter.instance.ClearHilight();
 
-	public override void Start(Character owner, int Tick)
+	}
+    public override void Start(Character owner, int Tick)
 	{
 		base.Start(owner,Tick);
 		index = 0;
@@ -62,8 +73,9 @@ public class Move : GameAction
 			if (index + 1 > setPath.Count) return;
 		if (!GridManager.instance.CanMove(setPath[index].Position)) return;
 		Interactable inter = Interactable.IsInteractable(setPath[index].Position);
-		if (inter != null)
+		if (inter != null&& interacting)
 		{
+			
 			inter.Interact();
 		}
 		float speed =(float) RefrenceManager.gameManager.playingTime * RefrenceManager.tickManager.tickTimeinSecond;
@@ -104,6 +116,7 @@ public class Move : GameAction
 		Interactable inter = Interactable.IsInteractable(targetPosition);
 		if (inter != null)
 		{
+			interacting = true;
 			inter.PreInteract();
 		}
 		owner.ghost.Move(targetPosition);
@@ -125,6 +138,7 @@ public class Move : GameAction
 			hilight.points.Add(node.Position);
 		}
 		GridShaderBinder.gridHilights.Add(hilight);
+		
 	}
 
     public override void UnHilight()
@@ -133,5 +147,6 @@ public class Move : GameAction
 		if(setPath!=null)
 		setPath.Clear();
 		GridShaderBinder.gridHilights.Remove(hilight);
+		CircleHilighter.instance.ClearHilight();
 	}
 }

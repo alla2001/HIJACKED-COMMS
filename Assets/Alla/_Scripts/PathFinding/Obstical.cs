@@ -136,7 +136,7 @@ public  class Obstical : GridObject
         
     
 
-        GridShaderBinder.gridHilights.Add(new GridHilight { points = { posOnGrid }, color = new Color(1,0.2f, 0.2f, 1) });
+        //GridShaderBinder.gridHilights.Add(new GridHilight { points = { posOnGrid }, color = new Color(1,0.2f, 0.2f, 1) });
         if (isServer)
         {
             RefrenceManager.musicManager.OnChangeSong += (song) =>

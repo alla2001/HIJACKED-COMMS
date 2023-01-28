@@ -28,7 +28,8 @@ public class taskCheckForTargetOutOfCover : BehaviourNode
         Shoot shoot = new Shoot();
         Vector2Int randomPosition = attackOrder[Random.Range(0, attackOrder.Count)].posOnGrid;
         shoot.targetCell = randomPosition;
-        charac.AddAction(shoot);
+        charac.AddActionAIServer(shoot);
+     
         state = BehaviourNodeState.SUCCESS;
         return state;
 
