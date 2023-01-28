@@ -6,9 +6,11 @@ public class RadioControler : SingletonMonoBehaviour<RadioControler>
 {
     Vector3 lastDirection;
     bool clicking;
+    
     int song;
     public void ChangeSong()
     {
+        
         RefrenceManager.musicManager.ChangeSong((MusicManager.Song)song);
     }
 
@@ -25,6 +27,7 @@ public class RadioControler : SingletonMonoBehaviour<RadioControler>
         song = (int)(angle / 90);
        
     }
+
     public void OnClickDown()
     {
         clicking = true;

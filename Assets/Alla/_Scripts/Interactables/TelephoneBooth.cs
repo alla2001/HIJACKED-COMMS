@@ -7,6 +7,7 @@ public class TelephoneBooth : Interactable
 
     public override void Interact()
     {
+        print("Telephone booth");
         RadioControler.instance.ChangeSong();
     }
     public override void PreInteract()

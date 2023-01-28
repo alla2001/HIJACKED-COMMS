@@ -22,7 +22,7 @@ public class Pathfinder : MonoBehaviour
         GridGraph map = new GridGraph(GraphWidth, GraphHeight);
         
         // Define the List of Vector2 to be considered walls
-        map.Walls = Walls;
+        //map.Walls = Walls;
 
         // Define the List of Vector2 to be considered forests
         map.Forests = Forests;

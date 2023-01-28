@@ -9,7 +9,12 @@ ModelImporter:
   - first:
       74: 1300770197434942443
     second: Armature|shoot
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Merged_PM3D_Cylinder3D_1
+    second: {fileID: 2100000, guid: 1a998a91b48c28140b9e13a5d47ddca6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

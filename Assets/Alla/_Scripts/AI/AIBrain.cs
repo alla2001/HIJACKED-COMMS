@@ -17,7 +17,7 @@ public class AIBrain : Ticker
        
             Move move = new Move {startPosition=character.posOnGrid,targetPosition=target.posOnGrid };
             
-            character.AddAction(move);
+            character.AddActionMove(move);
            
         }
         else
@@ -25,7 +25,7 @@ public class AIBrain : Ticker
           
             Shoot shoot= new Shoot();
             shoot.targetCell=target.posOnGrid;
-            character.AddAction(shoot);
+            character.AddActionShoot(shoot);
         }
     }
 

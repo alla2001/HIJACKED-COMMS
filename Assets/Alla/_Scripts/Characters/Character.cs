@@ -6,10 +6,18 @@ using UnityEngine.UI;
 using Mirror;
 public class Character : Ticker
 {
+	[System.Serializable]
 	public  class CharacterGhost
     {
-		public Vector2Int posOnGrid;
-
+		public Vector2Int posOnGrid { get; private set; }
+		public GameObject Ghost;
+		public void Move(Vector2Int pos)
+        {
+			posOnGrid = pos;
+			if(Ghost!=null)
+			Ghost.transform.position = GridManager.instance.GridToWorld(pos);
+        }
+		
 	}
 	[System.Serializable]
 	public class CharacterStats
@@ -22,6 +30,7 @@ public class Character : Ticker
 
 	}
 	public CharacterGhost ghost = new CharacterGhost();
+	[SyncVar]
 	public Vector2Int posOnGrid;
 	public int actionPointsLeft;
 	public Transform center;
@@ -29,7 +38,7 @@ public class Character : Ticker
 	public Image image;
 	[SerializeField] public CharacterStats stats;
 
-
+	public Queue<GameAction> clientActions= new Queue<GameAction>();
 	private Queue<GameAction> actions = new Queue<GameAction>();
 	[SerializeField]private bool _finishedActions;
 	private GameAction currentAction;
@@ -42,7 +51,8 @@ public class Character : Ticker
 		Vector2Int pos;
 		GridManager.instance.WorldToGrid(transform.position,out pos);
 		posOnGrid = pos;
-		ghost.posOnGrid = pos;
+		ghost.Move(pos);
+		
 		transform.position = GridManager.instance.GridToWorld(posOnGrid);
 		CharacterManager.instance.allCharacters.Add(this);
 
@@ -81,6 +91,7 @@ public class Character : Ticker
     }
 	public void MoveTo(Vector2Int pos, float _speed)
 	{
+		print("Moving TO " + pos);
 		speed = _speed;
 		
 		posOnGrid = pos;
@@ -148,10 +159,19 @@ public class Character : Ticker
 			}
 			if (currentAction != null)
 				currentAction.Removed(this);
-			
-			CharacterManager.instance.OnCharacterFinishedActions();
+			if (isOwned)
+			{
+				CharacterFinished();
+			}
+			else
+			{
+				CharacterFinishedOnServer();
+
+			}
+
+		
 			currentAction = null;
-			_finishedActions = true;
+
 			return;
 		}
 		if (RefrenceManager.gameManager.currentPhase == GameManager.GamePhase.Action2)
@@ -170,9 +190,17 @@ public class Character : Ticker
 			}
 			if (currentAction != null)
 				currentAction.Removed(this);
-			CharacterManager.instance.OnCharacterFinishedActions();
+            if (isOwned)
+            {
+				CharacterFinished();
+			}
+            else
+            {
+				CharacterFinishedOnServer();
+
+			}
 			currentAction = null;
-			_finishedActions = true;
+
 
 		}
 		
@@ -180,47 +208,145 @@ public class Character : Ticker
 		
 		actions.Clear();
 	}
+
+
+	[Command]
+	public void CharacterFinished()
+    {
+		CharacterManager.instance.OnCharacterFinishedActions();
+		_finishedActions = true;
+	}
+
+	public void CharacterFinishedOnServer()
+	{
+		CharacterManager.instance.OnCharacterFinishedActions();
+		_finishedActions = true;
+	}
 	private void OnDestroy()
-	{if(CharacterManager.instance.allCharacters!=null)
+		
+	{
+		base.OnDestroy();
+		if(CharacterManager.instance.allCharacters!=null)
 		CharacterManager.instance.allCharacters.Remove(this);
 	}
 
 	public override void OnStartedPlanning()
 	{
-	
-		ghost.posOnGrid = posOnGrid;
+        foreach (GameAction action in clientActions)
+        {
+			action.Removed(this);
+        }
+		actions.Clear();
+		ghost.Move(posOnGrid);
 		finishedActions = false;
 		actionPointsLeft = CharacterManager.instance.maxActionPoints;
 	}
+	
+	
 	public void Damage(int value)
     {
 		stats.Hp = Mathf.Clamp(stats.Hp - value, 0, 10);
 		image.fillAmount=(float)stats.Hp / 10;
+		if (stats.Hp <= 0 && isServer)
+		{
+			Destroy(gameObject);
+			//DeadCMD();
+		}
 
+
+	}
+
+	
+	private void DeadCMD()
+    {
+		Debug.Log("Dead");
+        if (isServer)
+        {
+			DeadRPC();
+        }
+        
+    }
+	[ClientRpc]
+	private void DeadRPC()
+    {
+		Destroy(gameObject);
 	}
 	public override void OnStartedPlaying()
 	{
 		
 	}
 
-	public void AddAction(GameAction action)
-	{
+	public void InitilizeAction(GameAction action)
+    {
+       
+			
+			clientActions.Enqueue(action);
+			action.OnAddClient(this);
 		
-		if (actionPointsLeft >= 0)
-		{
+	}
+	[Command]
+	public void AddActionMove(Move move)
+	{
+		print("Move : " + move.targetPosition +"  start :" +move.startPosition);
+		
 			print("action");
-			actions.Enqueue(action);
-			action.initilize(this);
+			actions.Enqueue(move);
+			move.OnAddServer(this);
 			actionPointsLeft--;
 
 
-		}
+		
 	}
-	public void RemoveAction(GameAction action)
+	[Command]
+	public void AddActionShoot(Shoot shoot)
 	{
-		actions= new Queue<GameAction>(actions.Where(x => x != action));
+
+		
+		
+			actions.Enqueue(shoot);
+			shoot.OnAddServer(this);
+			actionPointsLeft--;
+
+
+		
+	}
+	[Command]
+	public void AddActionGuard(Guard guard)
+	{
+
+		
+			
+			actions.Enqueue(guard);
+			guard.OnAddServer(this);
+			actionPointsLeft--;
+
+
+		
+	}
+	[Command]
+	public void RemoveAction()
+	{
+		//actions= new Queue<GameAction>(actions.Where(x => x != action));
+		GameAction action = actions.ElementAt(actions.Count - 1);
+
 		action.Removed(this);
         
 		actionPointsLeft++;
+	}
+	public void ClearActions()
+    {
+		for(int i=0; i < actions.Count+1; i++)
+        {
+			RemoveAction();
+			actionPointsLeft++;
+		}
+		for (int i = 0; i < clientActions.Count; i++)
+		{
+			clientActions.ElementAt(i).Removed(this);
+
+		}
+       
+		clientActions.Clear();
+
 	}
 }

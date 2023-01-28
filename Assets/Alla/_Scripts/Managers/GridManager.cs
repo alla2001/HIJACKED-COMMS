@@ -17,14 +17,14 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
     {
         base.Awake();
 		grid = new GridGraph(gridSizeX, gridSizeZ);
-		grid.Walls = new List<GridGraph.GridType>();
+	
 		grid.Forests = new List<Vector2Int>();
 	}
 	public bool CanMove(Vector2Int cell)
 	{
-		if (Obstical.IsObstacl(cell)) return false;
-		if (grid.Walls.FirstOrDefault((e) => { return e.pos == cell; }) == null) return false;
 
+		Obstical obs = Obstical.GetObstacl(cell);
+		if (obs != null ) return false;
 		return true;
 	}
 	private void Start()
@@ -51,6 +51,11 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
 	}
 	public bool PathBetween(Vector2Int start, Vector2Int end, out List<Node> path)
 	{
+        if (start== end)
+        {
+			path = null;
+			 return false;
+        }
 	List<Node> tempPath = AStar.Search(grid, grid.Grid[start.x, start.y], grid.Grid[end.x, end.y]);
 	
 	_end = GridToWorld(end);

@@ -40,7 +40,7 @@ public class TickManager : NetworkBehaviour
 
 		currentTick += 1;
 		UpdateTimer(currentTick);
-		
+		RefrenceManager.gameManager.CheckTransferState(currentTick);
 
 		StartCoroutine(Ticker());
 	}
@@ -53,15 +53,15 @@ public class TickManager : NetworkBehaviour
 	[ClientRpc]
 	public void UpdateTimer(int tick)
     {
-		currentTick =tick ;
+		currentTick = tick ;
 		if (RefrenceManager.gameManager.currentPhase == GameManager.GamePhase.Planning)
         {
 			timer.text =(RefrenceManager.gameManager.planningTime- (tick - lastTick)).ToString();
-			fill.fillAmount = (float)(tick - lastTick)/ (float)RefrenceManager.gameManager.planningTime  ;
+			fill.fillAmount = (float)(tick - lastTick)/ (float)(RefrenceManager.gameManager.planningTime - 1) ;
 
 
 		}
-		RefrenceManager.gameManager.CheckTransferState(currentTick);
+
 		try
 		{
 			Tick?.Invoke(tick);
@@ -77,6 +77,8 @@ public class TickManager : NetworkBehaviour
 	}
 	public void UnPause()
 	{
+		if(!isServer)return;
+		print("UNPAUSED");
 		StartCoroutine(Ticker());
 		paused = false;
 	}
