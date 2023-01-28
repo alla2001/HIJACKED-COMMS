@@ -2,22 +2,7 @@ fileFormatVersion: 2
 guid: d23e87ca86d131d4492a4bcfc93e9ee9
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable:
-  - first:
-      74: 1910318008117041245
-    second: Plane.025|Shader NodetreeAction.001
-  - first:
-      74: 6319956922803598066
-    second: Plane.025|Shader NodetreeAction.002
-  - first:
-      74: -7534878317540472693
-    second: Plane.025|tree.005Action
-  - first:
-      74: 5798106513396860944
-    second: Plane.025|tree.005Action.001
-  - first:
-      74: -9137583337006007138
-    second: Plane.025|tree.005Action.002
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -42,13 +27,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: roads
-    second: {fileID: 2100000, guid: ca8950a7d1c9bcd468e40c07bd20eb01, type: 2}
+      name: platform
+    second: {fileID: 2100000, guid: 5993287d59314e7408648f3a8154928d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: tiles
-    second: {fileID: 2100000, guid: 254fc57352dacb74788a7bae46f790d0, type: 2}
+      name: platform tiles
+    second: {fileID: 2100000, guid: fa64a75406c7a594692c119227c0984d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: roads
+    second: {fileID: 2100000, guid: ca8950a7d1c9bcd468e40c07bd20eb01, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
