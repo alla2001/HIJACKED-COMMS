@@ -8,10 +8,10 @@ public class enemyBT : BehaveTree
     public Character chillum;
     public int rangeForDetection;
     public int Randomness;
-  
+    BehaviourNode root;
     protected override BehaviourNode SetupTree()
     {
-        BehaviourNode root = new BehaviourSelector(new List<BehaviourNode>
+         root = new BehaviourSelector(new List<BehaviourNode>
         {
             /*new BehaviourSequence(new List<BehaviourNode>{
             new taskWaitForEnemy(chillum,rangeForDetection),
@@ -27,5 +27,13 @@ public class enemyBT : BehaveTree
         }) ;
 
         return root;
+    }
+    private void Update()
+    {
+        base.Update();
+        if (root.state != BehaviourNodeState.RUNNING)
+        {
+            chillum.ready = true;
+        }
     }
 }

@@ -9,6 +9,7 @@ public class MusicManager : NetworkBehaviour
        Red,Green,yellow,Blue, nothing
     }
     public GameObject radioUI;
+
     bool hacking;
     // each clip as a assosiated side efect assosiated to it , create a class for that.
     [SyncVar]
@@ -20,7 +21,7 @@ public class MusicManager : NetworkBehaviour
     public AudioClip blueSong;
     public AudioSource audioSource;
     public delegate void SongDelegate(Song song);
-
+    
     public SongDelegate OnChangeSong;
     private void Awake()
     {
@@ -28,19 +29,20 @@ public class MusicManager : NetworkBehaviour
         RefrenceManager.musicManager = this;
         else
         Destroy(this);
-        RefrenceManager.gameManager.startPlaying += () => { radioUI.SetActive(false); };
+        RefrenceManager.gameManager.startPlaying += () => { RefrenceManager.radioControler.OnDone(); radioUI.SetActive(false); };
         ChangeSong(Song.nothing); 
     }
     public void ChangeSong(Song newSong)
     {
         currentSong = newSong;
+        ChangeSongRpc();
         OnChangeSong?.Invoke(currentSong);
-        ChangeSongCommand();
+       
     }
     [ClientRpc]
     public void ChangeSongRpc()
     {
-        OnChangeSong.Invoke(currentSong);
+        
         switch (currentSong)
         {
             case Song.Red:
@@ -62,6 +64,7 @@ public class MusicManager : NetworkBehaviour
             default:
                 break;
         }
+        audioSource.Play();
     }
     [Command]
     public void ChangeSongCommand()
@@ -88,6 +91,7 @@ public class MusicManager : NetworkBehaviour
             default:
                 break;
         }
+        audioSource.Play();
     }
     public void StartHacking()
     {

@@ -1,31 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class RadioControler : SingletonMonoBehaviour<RadioControler>
+using Mirror;
+using TMPro;
+using UnityEngine.UI;
+public class RadioControler : NetworkBehaviour
 {
     Vector3 lastDirection;
     bool clicking;
-    
+    public Transform nob;
     int song;
-    public void ChangeSong()
+    public TelephoneBooth phone;
+    public TextMeshProUGUI text;
+    public Image screen;
+    public float angle=10;
+    public List<Transform> dots= new List<Transform>();
+
+    private void Awake()
     {
-        
-        RefrenceManager.musicManager.ChangeSong((MusicManager.Song)song);
+        if (RefrenceManager.radioControler ==null)
+        RefrenceManager.radioControler = this;
     }
 
+
+    public void OnDone()
+    {
+        if (phone != null)
+        {
+           
+            phone.AddSong(song);
+            phone.songs.Enqueue((MusicManager.Song)song);
+        }
+     
+        phone=null;
+
+    }
     public void Update()
     {
         if (!clicking) return;
         Vector2 mousePos= InputManager.instance.InputMap.Camera.MousePosition.ReadValue<Vector2>();
-        transform.up = mousePos - (Vector2)transform.position;
-        float angle = Vector3.SignedAngle(transform.up, Vector3.up,Vector3.forward);
-        angle += 45;
-        if (angle < 0) angle = angle + 360;
+        nob.up = mousePos - (Vector2)nob.position;
 
+        song = 4;
+        for (int i=0;i<dots.Count;i++)
+        {
+            Vector3 dir =  dots[i].position- nob.position;
+            if (Vector3.Angle(nob.up, dir)<angle)
+            {
+                song = i;
+                break;
+            }
+        }
       
-        song = (int)(angle / 90);
-       
+        text.text = ((MusicManager.Song)song).ToString().ToUpper();
+        switch ((MusicManager.Song)song)
+        {
+            case MusicManager.Song.Red:
+                text.color = Color.red;
+                screen.color=Color.red;
+                break;
+            case MusicManager.Song.Green:
+                text.color = Color.green;
+                screen.color=Color.green;
+                break;
+            case MusicManager.Song.yellow:
+                text.color = Color.yellow;
+                screen.color=Color.yellow;
+                break;
+            case MusicManager.Song.Blue:
+                text.color = Color.blue;
+                screen.color=Color.blue;
+                break;
+            case MusicManager.Song.nothing:
+                text.color = Color.white;
+                screen.color = Color.white;
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void OnClickDown()

@@ -11,7 +11,7 @@ public  class Obstical : GridObject
     public MoveType nextMove;
     GameAction move;
     Vector2Int targetCell;
-    public static bool finishedMoving;
+    public static bool finishedMoving =true;
     public static bool IsObstacl(Vector2Int pos)
     {
         foreach (Obstical  obs in obstacles)
@@ -52,7 +52,7 @@ public  class Obstical : GridObject
 	}
     public enum MoveType
     {
-       Left,Right
+       Left,Right,None
     }
     public void Move()
     {
@@ -60,12 +60,13 @@ public  class Obstical : GridObject
         switch (nextMove)
         {
             case MoveType.Left:
-                targetCell = posOnGrid + new Vector2Int(-2,0);
+                targetCell = posOnGrid + new Vector2Int(-3,0);
                 break;
             case MoveType.Right:
-                targetCell = posOnGrid + new Vector2Int(2, 0);
+                targetCell = posOnGrid + new Vector2Int(3, 0);
                 break;
             default:
+                targetCell = posOnGrid;
                 break;
         }
        
@@ -78,7 +79,7 @@ public  class Obstical : GridObject
     
     public void Do()
     {
-        if (posOnGrid == targetCell) { finishedMoving = true; return; } 
+        if (posOnGrid == targetCell) { print("DONE"); finishedMoving = true; return; } 
         Vector2Int direction= Vector2Int.zero;
         switch (nextMove)
         {

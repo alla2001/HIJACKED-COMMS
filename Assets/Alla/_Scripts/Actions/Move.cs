@@ -11,6 +11,8 @@ public class Move : GameAction
 	private int index;
 	private GridHilight hilight;
 	bool interacting;
+	public int Song;
+	bool end=false;
     public override bool Removed(Character owner)
     {
 		owner.ghost.Move(startPosition);
@@ -25,22 +27,27 @@ public class Move : GameAction
 
 	public override bool IsFinished(Character owner)
 	{
-		if (Vector3.Distance( owner.transform.position,GridManager.instance.GridToWorld( targetPosition))<0.2f )
-		{
-			return true;
-		}
-		if (!GridManager.instance.PathBetween(startPosition, targetPosition, out setPath))
-		{
-			return true;
-		}
-		if (setPath==null)
+		if (end) return true;
+		
+        if (index + 1 > setPath.Count)
         {
 			return true;
+
 		}
-		if (Obstical.finishedMoving && !GridManager.instance.CanMove(targetPosition))
+		//List<Node> tempPath;
+		//if (!GridManager.instance.PathBetween(startPosition, targetPosition, out tempPath))
+		//{
+		//	return true;
+		//}
+		//if (tempPath == null)
+  //      {
+		//	return true;
+		//}
+		if (Obstical.finishedMoving && !GridManager.instance.CanMove(setPath[index].Position))
 		{
 			return true;
 		}
+		Debug.Log("Notfinished");
 		return false;
 	}
 
@@ -60,23 +67,30 @@ public class Move : GameAction
 	}
     public override void Start(Character owner, int Tick)
 	{
+       
 		base.Start(owner,Tick);
 		index = 0;
 		currentNode = setPath[index];
-		
+		if (owner.posOnGrid != startPosition)
+		{
+			end = true;
+			return;
+
+		}
+
 	}
 	public override  void Update(Character owner)
     {
-
+		if (end) return;
 		if (owner.DistanceToTarget() > 0.1f)
 			return;
-			if (index + 1 > setPath.Count) return;
+		if (index + 1 > setPath.Count) return;
 		if (!GridManager.instance.CanMove(setPath[index].Position)) return;
 		Interactable inter = Interactable.IsInteractable(setPath[index].Position);
 		if (inter != null&& interacting)
 		{
 			
-			inter.Interact();
+			inter.Interact(owner);
 		}
 		float speed =(float) RefrenceManager.gameManager.playingTime * RefrenceManager.tickManager.tickTimeinSecond;
 		owner.MoveTo(setPath[index].Position,speed);
@@ -92,7 +106,11 @@ public class Move : GameAction
         {
 			return false;
 		}
-        if (Obstical.GetObstacl(selectedCell))
+        if (setPath.Count>playerCharacter.stats.Movement+5)
+        {
+			return false;
+		}
+		if (Obstical.GetObstacl(selectedCell))
         {
 			return false;
         }
@@ -104,8 +122,13 @@ public class Move : GameAction
     public override void OnAddServer(Character owner)
     {
         CalculatePath();
-		
-	
+		Interactable inter = Interactable.IsInteractable(targetPosition);
+		if (inter != null)
+		{
+			interacting = true;
+			
+		}
+
 
 
 
@@ -117,7 +140,7 @@ public class Move : GameAction
 		if (inter != null)
 		{
 			interacting = true;
-			inter.PreInteract();
+			inter.PreInteract(owner);
 		}
 		owner.ghost.Move(targetPosition);
 	}

@@ -21,15 +21,16 @@ public class Interactable : GridObject
 
 
     public enum Type
-    {PhoneBooth
+    {
+        PhoneBooth
     }
 
     public Type interactableType;
-    public virtual void Interact()
+    public virtual void Interact(Character character)
     {
 
     }
-    public virtual void PreInteract()
+    public virtual void PreInteract(Character character)
     {
 
     }

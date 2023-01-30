@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Ping : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float time = 1;
+    private void Start()
     {
-        
+        StartCoroutine(WaitFade());
     }
-
-    // Update is called once per frame
-    void Update()
+    IEnumerator WaitFade()
     {
-        
+        yield return new WaitForSeconds(time);
+        Destroy(gameObject);
     }
 }

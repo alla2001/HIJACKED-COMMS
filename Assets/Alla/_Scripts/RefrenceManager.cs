@@ -8,5 +8,6 @@ public static class RefrenceManager
     public static GameManager gameManager;
     public static NotificationManager notificationManager;
     public static MusicManager musicManager;
+    public  static RadioControler radioControler;
 
 }

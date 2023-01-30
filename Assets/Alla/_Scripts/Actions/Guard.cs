@@ -25,14 +25,15 @@ public class Guard : GameAction
                 enemiesInRange.Add(character);
             }
         }
-        if (enemiesInRange.Count > 0) { enemy = enemiesInRange[0]; } else
+        if (enemiesInRange.Count > 0) { enemy = enemiesInRange[0]; } 
+        else
         {
             return;
         }
 
         Shoot shoot = new Shoot();
         shoot.targetCell = enemy.posOnGrid;
-        shoot.Do(owner, 0);
+        shoot.Start(owner, 0);
         ammo--;
     }
     public override bool CanAssigne(Character playerCharacter, Vector2Int selectedCell)
@@ -50,13 +51,18 @@ public class Guard : GameAction
     public override void OnAddServer(Character owner)
     {
         UnHilight();
-        if (gh != null) GridShaderBinder.gridHilights.Remove(gh);
-        gh = new GridHilight();
-        gh.points.Add(owner.ghost.posOnGrid);
-        gh.color = Color.magenta;
-        GridShaderBinder.gridHilights.Add(gh);
-    }
 
+        //if (gh != null) GridShaderBinder.gridHilights.Remove(gh);
+        //gh = new GridHilight();
+        //gh.points.Add(owner.ghost.posOnGrid);
+        //gh.color = Color.magenta;
+        //GridShaderBinder.gridHilights.Add(gh);
+    }
+    public override void OnAddClient(Character owner)
+    {
+        base.OnAddClient(owner);
+        UnHilight();
+    }
     public override bool IsFinished(Character owner)
     {
        

@@ -18,6 +18,7 @@ public class TickManager : NetworkBehaviour
 	int lastTick;
 	public TextMeshProUGUI timer;
 	public Image fill;
+
 	private void Awake()
     {
 		if (RefrenceManager.tickManager == null)

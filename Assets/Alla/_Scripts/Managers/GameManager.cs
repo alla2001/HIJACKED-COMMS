@@ -26,6 +26,7 @@ public class GameManager : NetworkBehaviour
 	private int lastTransitionTick = 0;
 	bool called;
 	bool started;
+	
     private void Awake()
     {
 		if (RefrenceManager.gameManager == null)
@@ -72,11 +73,22 @@ public class GameManager : NetworkBehaviour
 				
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action1;
-					phaseText.text = "Playing :";
+					phaseText.text = "Preperation Phase:";
 					startPlaying?.Invoke();
 					SetState(currentPhase);
+					return;
 				}
-
+				foreach (Character chara in CharacterManager.instance.allCharacters)
+				{
+					print(chara.name + " " + chara.ready);
+					if (!chara.ready) return;
+				}
+				lastTransitionTick = Tick;
+				currentPhase = GamePhase.Action1;
+				phaseText.text = "Playing :";
+				startPlaying?.Invoke();
+				SetState(currentPhase);
+				
 				break;
 
 			case GamePhase.Action1:
@@ -109,6 +121,11 @@ public class GameManager : NetworkBehaviour
 			default:
 				break;
 		}
+	}
+	public void StartPlay()
+    {
+		
+
 	}
 	[ClientRpc]
 	public void SetState(GamePhase gamePhase)

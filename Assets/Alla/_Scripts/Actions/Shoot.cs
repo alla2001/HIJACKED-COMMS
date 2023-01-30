@@ -14,7 +14,7 @@ public class Shoot : GameAction
     }
     public override bool CanAssigne(Character playerCharacter,Vector2Int selectedCell)
 	{
-		Character target= CharacterManager.instance.GetCharacterOnCell(selectedCell);
+		
         if (target==null)
         {
 			return false;
@@ -49,14 +49,19 @@ public class Shoot : GameAction
 
     public override void OnAddServer(Character owner)
     {
-	
+		target = CharacterManager.instance.GetCharacterOnCell(targetCell);
+
+		return;
+    }
+    public override void OnAddClient(Character owner)
+    {
 		if (gh != null) { GridShaderBinder.gridHilights.Remove(gh); }
 		gh = new GridHilight();
 		gh.color = new Color(1, 0, 0);
 		gh.points.Add(targetCell);
 		GridShaderBinder.gridHilights.Add(gh);
 		return;
-    }
+	}
 
     public override bool IsFinished(Character owner)
 	{
@@ -66,7 +71,7 @@ public class Shoot : GameAction
 
 	public override void Start(Character owner, int Tick)
 	{
-		target = CharacterManager.instance.GetCharacterOnCell(targetCell);
+		Character target = CharacterManager.instance.GetCharacterOnCell(targetCell);
 		base.Start(owner, Tick);
 		if (shotsleft <= 0) return;
 		int accuracy = owner.stats.Accuracy * 5 + 30;
@@ -112,15 +117,20 @@ public class Shoot : GameAction
 
 
 			target.Damage(damage);
-			RefrenceManager.notificationManager.NotfyOnCell(targetCell, (-damage).ToString(), Color.yellow);
+		
+			RefrenceManager.notificationManager.NotfyOnCellRPC(targetCell, (-damage).ToString(), Color.yellow);
 
-
+			owner.ShootAnimationsServer();
+			owner.Lazer(target);
 
 
 		}
 		else
 		{
-			RefrenceManager.notificationManager.NotfyOnCell(targetCell, "Miss", Color.red);
+			
+			RefrenceManager.notificationManager.NotfyOnCellRPC(targetCell, "Miss", Color.red);
+			owner.ShootAnimationsServer();
+			owner.Lazer(target);
 		}
 
 		shotsleft--;
