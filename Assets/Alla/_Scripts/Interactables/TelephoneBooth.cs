@@ -6,7 +6,7 @@ public class TelephoneBooth : Interactable
 {
     public Queue<MusicManager.Song> songs = new Queue<MusicManager.Song>();
 
-    [Command]
+    [Command(requiresAuthority =false)]
     public void AddSong(int song )
     {
       
