@@ -15,10 +15,7 @@ public class Shoot : GameAction
     public override bool CanAssigne(Character playerCharacter,Vector2Int selectedCell)
 	{
 		
-        if (target==null)
-        {
-			return false;
-        }
+
 		
 		List<Vector2Int> cells = GridManager.instance.GetCircle(playerCharacter.ghost.posOnGrid, playerCharacter.stats.Range);
 		Vector2Int cell= cells.FirstOrDefault((ele)=> { return (ele.x==selectedCell.x && ele.y == selectedCell.y); });
