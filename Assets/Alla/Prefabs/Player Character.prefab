@@ -7619,8 +7619,9 @@ MonoBehaviour:
   isPlayer: 0
   holok: {fileID: 7289332592963620577}
   adamastor: {fileID: 2273376142193201303}
-  sasha: {fileID: 0}
+  sasha: {fileID: 6361353161802502964}
   characterModel: {fileID: 0}
+  assosiatedChar: 0
 --- !u!1 &8448954646062777086
 GameObject:
   m_ObjectHideFlags: 0

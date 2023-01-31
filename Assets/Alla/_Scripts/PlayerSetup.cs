@@ -68,6 +68,7 @@ public class PlayerSetup : NetworkBehaviour
                 default:
                     break;
             }
+            old = true;
 
         }
         else
