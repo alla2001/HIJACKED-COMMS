@@ -29,7 +29,7 @@ public class MusicManager : NetworkBehaviour
         RefrenceManager.musicManager = this;
         else
         Destroy(this);
-       GameManager.startPlaying += () => { RefrenceManager.radioControler.OnDone(); radioUI.SetActive(false); };
+        GameManager.startPlaying += () => { RefrenceManager.radioControler.OnDone(); radioUI.SetActive(false); };
         ChangeSong(Song.nothing); 
     }
     public void ChangeSong(Song newSong)
@@ -47,9 +47,11 @@ public class MusicManager : NetworkBehaviour
         {
             case Song.Red:
                 audioSource.clip = redSong;
+
                 break;
             case Song.Green:
                 audioSource.clip = greenSong;
+           
                 break;
             case Song.yellow:
                 audioSource.clip = yellowSong;
@@ -59,7 +61,7 @@ public class MusicManager : NetworkBehaviour
                 break;
             case Song.nothing:
                 audioSource.clip = null;
-
+                
                 break;
             default:
                 break;
@@ -74,19 +76,23 @@ public class MusicManager : NetworkBehaviour
         {
             case Song.Red:
                 audioSource.clip = redSong;
+                RefrenceManager.gameManager.planningTime = 10;
                 break;
             case Song.Green:
                 audioSource.clip = greenSong;
+                RefrenceManager.gameManager.planningTime = 20;
                 break;
             case Song.yellow:
                 audioSource.clip = yellowSong;
+                RefrenceManager.gameManager.planningTime = 15;
                 break;
             case Song.Blue:
                 audioSource.clip = blueSong;
+                RefrenceManager.gameManager.planningTime = 5;
                 break;
             case Song.nothing:
                 audioSource.clip = null;
-
+                RefrenceManager.gameManager.planningTime = 25;
                 break;
             default:
                 break;
