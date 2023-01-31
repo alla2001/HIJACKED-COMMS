@@ -47,21 +47,23 @@ public class MusicManager : NetworkBehaviour
         {
             case Song.Red:
                 audioSource.clip = redSong;
-
+                RefrenceManager.gameManager.planningTime = 10;
                 break;
             case Song.Green:
                 audioSource.clip = greenSong;
-           
+                RefrenceManager.gameManager.planningTime = 20;
                 break;
             case Song.yellow:
                 audioSource.clip = yellowSong;
+                RefrenceManager.gameManager.planningTime = 15;
                 break;
             case Song.Blue:
                 audioSource.clip = blueSong;
+                RefrenceManager.gameManager.planningTime = 5;
                 break;
             case Song.nothing:
                 audioSource.clip = null;
-                
+                RefrenceManager.gameManager.planningTime = 25;
                 break;
             default:
                 break;
