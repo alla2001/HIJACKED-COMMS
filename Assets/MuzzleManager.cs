@@ -6,7 +6,8 @@ public class MuzzleManager : MonoBehaviour
 {
     public void Fire()
     {
-        foreach (Muzzle mzl in GetComponentsInChildren<Muzzle>())
+      
+        foreach (Muzzle mzl in GetComponentsInChildren<Muzzle>(true))
         {
             mzl.gameObject.SetActive(true);
         }

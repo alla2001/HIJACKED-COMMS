@@ -91,10 +91,10 @@ public class Character : Ticker
     {
 		if (lazer == null) return;
 		Vector3[] points = { center.position, target.center.position };
-
 		lazer.SetPositions(points);
 
 	}
+
 	
 	public List<Obstical> InCover()
     {
