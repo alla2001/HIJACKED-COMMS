@@ -80,7 +80,7 @@ public class Door : GridObject
                     }
                 }
             };
-            RefrenceManager.gameManager.startPlaying += () =>
+            GameManager.startPlaying += () =>
             {
                 if (RefrenceManager.musicManager.currentSong == MusicManager.Song.Green)
                 {

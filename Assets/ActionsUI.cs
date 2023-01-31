@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 public class ActionsUI : MonoBehaviour 
-{ 
+{
+    private void Awake()
+    {
+      
+    }
     private void Start()
     {
-        RefrenceManager.gameManager.startPlanning += OnPlanning;
-        RefrenceManager.gameManager.startPlaying += OnPlay;
+     
+        GameManager.startPlanning += OnPlanning;
+        GameManager.startPlaying += OnPlay;
     }
 
     public void OnPlay()

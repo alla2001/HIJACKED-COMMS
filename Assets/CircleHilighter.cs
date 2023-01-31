@@ -7,7 +7,7 @@ public class CircleHilighter : SingletonMonoBehaviour<CircleHilighter>
     public Material circleMaterial;
     private void Start()
     {
-        RefrenceManager.gameManager.startPlaying += () => { ClearHilight(); };
+       GameManager.startPlaying += () => { ClearHilight(); };
     }
     public void HilightCircle(Vector3 pos, float radius)
     {

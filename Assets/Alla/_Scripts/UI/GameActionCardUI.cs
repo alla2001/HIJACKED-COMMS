@@ -10,14 +10,14 @@ public class GameActionCardUI : MonoBehaviour
     public static List<GameActionCardUI> cards= new List<GameActionCardUI> ();
     private void Start()
     {
-        RefrenceManager.gameManager.startPlanning +=Kill;
-        RefrenceManager.gameManager.startPlaying +=OnPlay;
+        GameManager.startPlanning +=Kill;
+        GameManager.startPlaying +=OnPlay;
         cards.Add(this);
     }
     public void Kill()
     {
-        RefrenceManager.gameManager.startPlanning -= Kill;
-        RefrenceManager.gameManager.startPlaying -= OnPlay;
+        GameManager.startPlanning -= Kill;
+        GameManager.startPlaying -= OnPlay;
         cards.Remove(this);
         Destroy(gameObject);
     }

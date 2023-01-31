@@ -18,16 +18,17 @@ public class GameActionManager : SingletonMonoBehaviour<GameActionManager>
 	{
 		Move,Shoot,Guard
 	}
+    
     private void Start()
     {
-		RefrenceManager.gameManager.startPlanning += () => 
+		GameManager.startPlanning += () => 
 		{
 
 			if (selectedAction != null) selectedAction.UnHilight();
 			selectedAction = null;
 			
 		};
-		RefrenceManager.gameManager.startPlaying+= () => 
+		GameManager.startPlaying+= () => 
 		{
 			if (selectedAction != null) selectedAction.UnHilight(); 
 			selectedAction = null; 

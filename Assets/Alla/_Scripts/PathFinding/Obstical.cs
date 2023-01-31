@@ -148,7 +148,7 @@ public  class Obstical : GridObject
                     Move();
                 }
             };
-            RefrenceManager.gameManager.startPlaying += () =>
+            GameManager.startPlaying += () =>
             {
                 if (RefrenceManager.musicManager.currentSong == MusicManager.Song.yellow)
                 {

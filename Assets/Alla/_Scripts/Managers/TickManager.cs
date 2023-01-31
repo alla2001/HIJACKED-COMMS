@@ -30,8 +30,8 @@ public class TickManager : NetworkBehaviour
 	{
 		//start Ticking;
 
-		RefrenceManager.gameManager.startPlanning += () => { lastTick = currentTick; };
-		RefrenceManager.gameManager.startPlaying += () => { lastTick = currentTick; };
+		GameManager.startPlanning += () => { lastTick = currentTick; };
+		GameManager.startPlaying += () => { lastTick = currentTick; };
 		
 	}
 
@@ -51,6 +51,7 @@ public class TickManager : NetworkBehaviour
 		StopAllCoroutines();
 		paused = true;
 	}
+	float amountToFill;
 	[ClientRpc]
 	public void UpdateTimer(int tick)
     {
@@ -62,8 +63,8 @@ public class TickManager : NetworkBehaviour
             {
 				fill.fillAmount = 0;
             }
-			float amountToFill = (float)(tick - lastTick) / (float)(RefrenceManager.gameManager.planningTime - 1);
-			StartCoroutine("fillImage", amountToFill);
+			 amountToFill = (float)(tick - lastTick) / (float)(RefrenceManager.gameManager.planningTime - 1);
+		
 
 
 		}
@@ -81,22 +82,16 @@ public class TickManager : NetworkBehaviour
 
 
 	}
-	public void UnPause()
+    private void Update()
+    {
+		fill.fillAmount = Mathf.MoveTowards(fill.fillAmount, amountToFill, 0.5f* Time.deltaTime);
+    }
+    public void UnPause()
 	{
 		if(!isServer)return;
 		print("UNPAUSED");
 		StartCoroutine(Ticker());
 		paused = false;
 	}
-	public IEnumerator fillImage(float f)
-    {
-		float difference = (float)(currentTick - lastTick) / (float)(RefrenceManager.gameManager.planningTime - 1) - fill.fillAmount;
-		difference /= 50;
-		for(int i = 0; i < 50; i++)
-        {
-			fill.fillAmount += difference;
-			yield return new WaitForSeconds(0.02f);
-			
-		}
-	}
+	
 }

@@ -8,8 +8,8 @@ public class GameManager : NetworkBehaviour
 {
 	public int planningTime = 15;
 	public int playingTime = 5;
-	public UnityAction startPlaying;
-	public UnityAction startPlanning;
+	public static UnityAction startPlaying;
+	public static UnityAction startPlanning ;
 	public TextMeshProUGUI phaseText;
 	public int TimeLeft { get; private set; }
 	public enum GamePhase
@@ -26,13 +26,23 @@ public class GameManager : NetworkBehaviour
 	private int lastTransitionTick = 0;
 	bool called;
 	bool started;
-	
-    private void Awake()
+	public enum Characters
+	{
+		holok, adamastor, sasha
+	}
+	[SyncVar]
+	public Characters nextCharacter = Characters.holok;
+	private void Awake()
     {
 		if (RefrenceManager.gameManager == null)
+        {
+			print("ADDED");
 			RefrenceManager.gameManager = this;
+		}
+			
 		else Destroy(this);
     }
+
     private void Start()
 	{
 		if (NetworkManager.singleton.numPlayers  >= playersNeeded && isServer)

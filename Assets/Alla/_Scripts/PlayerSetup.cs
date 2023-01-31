@@ -10,21 +10,28 @@ public class PlayerSetup : NetworkBehaviour
     public bool isPlayer;
     public GameObject holok;
     public GameObject adamastor;
+    public GameObject sasha;
     public GameObject characterModel;
-    
-    public enum Characters
-    {
-        holok,adamastor
-    }
     [SyncVar]
-    public Characters nextCharacter=Characters.adamastor;
+    public GameManager.Characters nextCharacter = GameManager.Characters.holok;
+    private void OnConnectedToServer()
+    {
+        
+    }
+
     private void Awake()
     {
         character= GetComponent<Character>();
        
     }
-    
-
+  
+    public void NextCharacterCommand(GameManager.Characters chara)
+    {
+        RefrenceManager.gameManager.nextCharacter = chara;
+      
+    }
+  
+  
     private void Start()
     {
         if (netIdentity.isOwned)
@@ -34,18 +41,53 @@ public class PlayerSetup : NetworkBehaviour
             playerCharacter = character;
             isPlayer = true;
 
-            switch (nextCharacter)
+            switch (
+        RefrenceManager.gameManager.nextCharacter)
             {
-                case Characters.holok:
+                case GameManager.Characters.holok:
+                    nextCharacter = GameManager.Characters.holok;
                     holok.SetActive(true);
                     character.animator=holok.GetComponentInChildren<Animator>();
-                    nextCharacter = Characters.adamastor;
+                    NextCharacterCommand(GameManager.Characters.adamastor);
                     characterModel = holok;
                     break;
-                case Characters.adamastor:
+                case GameManager.Characters.adamastor:
+                    nextCharacter = GameManager.Characters.adamastor;
                     adamastor.SetActive(true);
                     character.animator = adamastor.GetComponentInChildren<Animator>();
                     characterModel = adamastor;
+                    break;
+                case GameManager.Characters.sasha:
+                    nextCharacter = GameManager.Characters.sasha;
+                    sasha.SetActive(true);
+                    character.animator = sasha.GetComponentInChildren<Animator>();
+                    characterModel = sasha;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (nextCharacter)
+            {
+                case GameManager.Characters.holok:
+                 holok.SetActive(true);
+                    character.animator = holok.GetComponentInChildren<Animator>();
+                    NextCharacterCommand(GameManager.Characters.adamastor);
+                    characterModel = holok;
+                    break;
+                case GameManager.Characters.adamastor:
+             
+                    adamastor.SetActive(true);
+                    character.animator = adamastor.GetComponentInChildren<Animator>();
+                    characterModel = adamastor;
+                    break;
+                case GameManager.Characters.sasha:
+        
+                    sasha.SetActive(true);
+                    character.animator = sasha.GetComponentInChildren<Animator>();
+                    characterModel = sasha;
                     break;
                 default:
                     break;
