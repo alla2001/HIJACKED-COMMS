@@ -45,21 +45,21 @@ public class PlayerSetup : NetworkBehaviour
         RefrenceManager.gameManager.nextCharacter)
             {
                 case GameManager.Characters.holok:
-                    nextCharacter = GameManager.Characters.holok;
+                    nextCharacter = GameManager.Characters.adamastor;
                     holok.SetActive(true);
                     character.animator=holok.GetComponentInChildren<Animator>();
                     NextCharacterCommand(GameManager.Characters.adamastor);
                     characterModel = holok;
                     break;
                 case GameManager.Characters.adamastor:
-                    nextCharacter = GameManager.Characters.adamastor;
+                    nextCharacter = GameManager.Characters.sasha;
                     adamastor.SetActive(true);
                     character.animator = adamastor.GetComponentInChildren<Animator>();
                     characterModel = adamastor;
                     NextCharacterCommand(GameManager.Characters.sasha);
                     break;
                 case GameManager.Characters.sasha:
-                    nextCharacter = GameManager.Characters.sasha;
+               
                     sasha.SetActive(true);
                     character.animator = sasha.GetComponentInChildren<Animator>();
                     characterModel = sasha;
@@ -71,7 +71,7 @@ public class PlayerSetup : NetworkBehaviour
         else
         {
             switch (
-        RefrenceManager.gameManager.nextCharacter)
+       nextCharacter)
             {
                 case GameManager.Characters.holok:
                     nextCharacter = GameManager.Characters.holok;
