@@ -12,7 +12,7 @@ namespace BehaviourTree
     }
     public class BehaviourNode
     {
-        protected BehaviourNodeState state;
+        public BehaviourNodeState state;
 
         public BehaviourNode parent;
         protected List<BehaviourNode> children = new List<BehaviourNode>();

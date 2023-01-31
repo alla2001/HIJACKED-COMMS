@@ -11,8 +11,8 @@ public abstract class Ticker : NetworkBehaviour
 			RefrenceManager.tickManager.Tick += OnTick;
 		}
 		
-		RefrenceManager.gameManager.startPlanning += OnStartedPlanning;
-		RefrenceManager.gameManager.startPlaying += OnStartedPlaying;
+		GameManager.startPlanning += OnStartedPlanning;
+		GameManager.startPlaying += OnStartedPlaying;
 
 
 	}
@@ -22,8 +22,8 @@ public abstract class Ticker : NetworkBehaviour
 		{
 			RefrenceManager.tickManager.Tick -= OnTick;
 		}
-		RefrenceManager.gameManager.startPlanning -= OnStartedPlanning;
-		RefrenceManager.gameManager.startPlaying -= OnStartedPlaying;
+		GameManager.startPlanning -= OnStartedPlanning;
+		GameManager.startPlaying -= OnStartedPlaying;
 	}
     public abstract void OnStartedPlanning();
 	public abstract void OnStartedPlaying();

@@ -57,7 +57,15 @@ public class GridGraph
     public bool Passable(Vector2Int id)
     {
         Obstical obs = Obstical.GetObstacl(id);
-        if (obs != null && obs.coverType ==Obstical.CoverType.Wall) return false;
+        if (obs != null) return false;
+        foreach (GridIgnore ignore in GridIgnore.gridIgnores)
+        {
+            if (ignore.points.Contains(id))
+            {
+                return false;
+            }
+            
+        }
         return true;
     }
 

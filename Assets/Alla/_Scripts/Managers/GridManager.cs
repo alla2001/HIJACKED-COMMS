@@ -13,6 +13,7 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
 	private List<Node> lastPath = new List<Node>();
 	public Vector3 _end;
 	public Vector3 _start;
+	
     private void Awake()
     {
         base.Awake();
@@ -25,7 +26,12 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
 
 		Obstical obs = Obstical.GetObstacl(cell);
 		Character chara= CharacterManager.instance.GetCharacterOnCell(cell);
+      
 		if (obs != null || chara!=null) return false;
+		foreach (Door door in Door.doors)
+		{
+			if (door.active&& door.points.Contains(cell)) return false;
+		}
 		return true;
 	}
 	private void Start()
@@ -92,23 +98,23 @@ public class GridManager : SingletonMonoBehaviour<GridManager>
 
 	private void OnDrawGizmos()
 	{
-		Gizmos.color = Color.green;
-		for (int x = 0; x < gridSizeX; x++)
-		{
-			for (int y = 0; y < gridSizeZ; y++)
-			{
-				Gizmos.DrawSphere(GridToWorld(new Vector2Int(x, y)) - new Vector3(gridSize / 2, 0, gridSize / 2), gridSize / 10);
-			}
-		}
-		Gizmos.color = Color.red;
-		if (lastPath.Count <= 0) return;
-		foreach (Node node in lastPath)
-		{
-			Gizmos.DrawSphere(GridToWorld(node.Position), gridSize / 10);
-		}
-		Gizmos.color = Color.black;
-		Gizmos.DrawSphere(_end, gridSize / 10);
-		Gizmos.color = Color.white;
-		Gizmos.DrawSphere(_start, gridSize / 10);
+		//Gizmos.color = Color.green;
+		//for (int x = 0; x < gridSizeX; x++)
+		//{
+		//	for (int y = 0; y < gridSizeZ; y++)
+		//	{
+		//		Gizmos.DrawSphere(GridToWorld(new Vector2Int(x, y)) - new Vector3(gridSize / 2, 0, gridSize / 2), gridSize / 10);
+		//	}
+		//}
+		//Gizmos.color = Color.red;
+		//if (lastPath.Count <= 0) return;
+		//foreach (Node node in lastPath)
+		//{
+		//	Gizmos.DrawSphere(GridToWorld(node.Position), gridSize / 10);
+		//}
+		//Gizmos.color = Color.black;
+		//Gizmos.DrawSphere(_end, gridSize / 10);
+		//Gizmos.color = Color.white;
+		//Gizmos.DrawSphere(_start, gridSize / 10);
 	}
 }

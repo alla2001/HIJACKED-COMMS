@@ -14,6 +14,8 @@ public class MoveTheCamera : MonoBehaviour
 	private int currentActionPoint;
 	[HideInInspector]private Vector2Int selectedCell;
 	Vector2 moveValue;
+	public LayerMask Building;
+	GameObject building;	
 	private void Start()
 	{
 
@@ -25,19 +27,35 @@ public class MoveTheCamera : MonoBehaviour
 		};
 		
 	}
-    private void Update()
-    {
+	private void Update()
+	{
 		moveValue =
 		InputManager.instance.InputMap.Camera.Move.ReadValue<Vector2>();
-		assosiatedCamera.transform.Translate(moveSpeed*moveValue.x*Time.deltaTime,0, moveSpeed*moveValue.y* Time.deltaTime,Space.World);
-		
+		assosiatedCamera.transform.Translate(moveSpeed * Time.deltaTime * moveValue.x * transform.right +
+			(transform.up + transform.forward) * moveSpeed * moveValue.y * Time.deltaTime);
+		RaycastHit hit;
+	
+		if (Physics.SphereCast( assosiatedCamera.transform.position, 0.7f, assosiatedCamera.transform.forward, out hit, 10000,Building))
+		{
+			print(hit.collider.gameObject);
+			if (building == hit.collider.gameObject) return;
+			if (building != null)
+				building.GetComponent<MeshRenderer>().enabled = true;
+			building = hit.collider.gameObject;
+			building.GetComponent<MeshRenderer>().enabled=false;
+		}
+        else
+        {
+			if (building != null)
+				building.GetComponent<MeshRenderer>().enabled = true;
+		}
 		
     }
     public void AddAction()
 	{
 		if (currentActionPoint - 1 > 0)
 		{
-			ActionManager.instance.AssigneSelectedAction(assosiatedCharacter,selectedCell);
+			GameActionManager.instance.AssigneSelectedAction(assosiatedCharacter,selectedCell);
 		}
 		currentActionPoint--;
 	}

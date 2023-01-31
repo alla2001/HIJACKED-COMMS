@@ -18,6 +18,7 @@ public class TickManager : NetworkBehaviour
 	int lastTick;
 	public TextMeshProUGUI timer;
 	public Image fill;
+
 	private void Awake()
     {
 		if (RefrenceManager.tickManager == null)
@@ -29,8 +30,8 @@ public class TickManager : NetworkBehaviour
 	{
 		//start Ticking;
 
-		RefrenceManager.gameManager.startPlanning += () => { lastTick = currentTick; };
-		RefrenceManager.gameManager.startPlaying += () => { lastTick = currentTick; };
+		GameManager.startPlanning += () => { lastTick = currentTick; };
+		GameManager.startPlaying += () => { lastTick = currentTick; };
 		
 	}
 
@@ -50,6 +51,7 @@ public class TickManager : NetworkBehaviour
 		StopAllCoroutines();
 		paused = true;
 	}
+	float amountToFill;
 	[ClientRpc]
 	public void UpdateTimer(int tick)
     {
@@ -57,7 +59,12 @@ public class TickManager : NetworkBehaviour
 		if (RefrenceManager.gameManager.currentPhase == GameManager.GamePhase.Planning)
         {
 			timer.text =(RefrenceManager.gameManager.planningTime- (tick - lastTick)).ToString();
-			fill.fillAmount = (float)(tick - lastTick)/ (float)(RefrenceManager.gameManager.planningTime - 1) ;
+            if (fill.fillAmount == 1)
+            {
+				fill.fillAmount = 0;
+            }
+			 amountToFill = (float)(tick - lastTick) / (float)(RefrenceManager.gameManager.planningTime - 1);
+		
 
 
 		}
@@ -75,11 +82,16 @@ public class TickManager : NetworkBehaviour
 
 
 	}
-	public void UnPause()
+    private void Update()
+    {
+		fill.fillAmount = Mathf.MoveTowards(fill.fillAmount, amountToFill, 0.5f* Time.deltaTime);
+    }
+    public void UnPause()
 	{
 		if(!isServer)return;
 		print("UNPAUSED");
 		StartCoroutine(Ticker());
 		paused = false;
 	}
+	
 }

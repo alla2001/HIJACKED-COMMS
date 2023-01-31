@@ -9,7 +9,7 @@ public class Character : Ticker
 	[System.Serializable]
 	public  class CharacterGhost
     {
-		public Vector2Int posOnGrid { get; private set; }
+		public Vector2Int posOnGrid { get; protected set; }
 		public GameObject Ghost;
 		public void Move(Vector2Int pos)
         {
@@ -20,6 +20,7 @@ public class Character : Ticker
 		
 	}
 	[System.Serializable]
+	
 	public class CharacterStats
 	{
 		[SerializeField] public int Movement;
@@ -45,21 +46,20 @@ public class Character : Ticker
 	float speed;
 	Vector2Int targetPos;
 	public Animator animator;
-	public List<GameAction> Debugactions = new List<GameAction>();
 	
-	bool ready;
+	public LineRenderer lazer;
+	[SyncVar]
+	public MusicManager.Song nextSong;
+	[HideInInspector]public bool ready;
 
 	[Command]
 	public void ReadyCommand()
     {
 		ready=true;
-        foreach (Character  chara in CharacterManager.instance.allCharacters)
-        {
-			if (!chara.ready) return;
-        }
-
+      
 
 	}
+	
 	private void Start()
 	{
 		base.Start();
@@ -87,7 +87,14 @@ public class Character : Ticker
 		targetPos = pos;
 
 	}
+	public void Lazer(Character target)
+    {
+		if (lazer == null) return;
+		Vector3[] points = { center.position, target.center.position };
 
+		lazer.SetPositions(points);
+
+	}
 	
 	public List<Obstical> InCover()
     {
@@ -106,7 +113,7 @@ public class Character : Ticker
     }
 	public void MoveTo(Vector2Int pos, float _speed)
 	{
-		print("Moving TO " + pos);
+		
 		speed = _speed;
 		
 		posOnGrid = pos;
@@ -121,6 +128,16 @@ public class Character : Ticker
 	public float DistanceToTarget()
     {
 		return Vector3.Distance(transform.position, GridManager.instance.GridToWorld(posOnGrid));
+    }
+	public void ShootAnimationsServer()
+    {
+		animator.SetTrigger("Fire");
+		ShootAnimationRPC();
+	}
+	[ClientRpc]
+	private void ShootAnimationRPC()
+    {
+		animator.SetTrigger("Fire");
     }
     private void Update()
     {
@@ -162,8 +179,10 @@ public class Character : Ticker
         {
 			if (currentAction == null && actions.Count > 0)
 			{
+			
 				currentAction = actions.Dequeue();
 				currentAction.Start(this, Tick);
+				
 				return;
 			}
 			if (currentAction != null && !currentAction.IsFinished(this))
@@ -195,6 +214,7 @@ public class Character : Ticker
 			{
 				currentAction = actions.Dequeue();
 				currentAction.Start(this, Tick);
+		
 				return;
 			}
 			if (currentAction != null && !currentAction.IsFinished(this))
@@ -254,6 +274,7 @@ public class Character : Ticker
 		ghost.Move(posOnGrid);
 		finishedActions = false;
 		actionPointsLeft = CharacterManager.instance.maxActionPoints;
+		ready = false;
 	}
 	
 	
@@ -290,12 +311,13 @@ public class Character : Ticker
 		
 	}
 
-	public void InitilizeAction(GameAction action)
+	public void AddActionClient(GameAction action)
     {
        
 			
 			clientActions.Enqueue(action);
 			action.OnAddClient(this);
+		
 		
 	}
 	[Command]
@@ -309,7 +331,8 @@ public class Character : Ticker
 			actionPointsLeft--;
 
 
-		
+
+
 	}
 	[Command]
 	public void AddActionShoot(Shoot shoot)
@@ -322,7 +345,7 @@ public class Character : Ticker
 			actionPointsLeft--;
 
 
-		
+
 	}
 	[Command]
 	public void AddActionGuard(Guard guard)
@@ -335,7 +358,7 @@ public class Character : Ticker
 			actionPointsLeft--;
 
 
-		
+
 	}
 	[Command]
 	public void RemoveAction()
@@ -344,8 +367,26 @@ public class Character : Ticker
 		GameAction action = actions.ElementAt(actions.Count - 1);
 
 		action.Removed(this);
-        
+
+
 		actionPointsLeft++;
+
+	}
+	[Command]
+	public void ClearActionsServer()
+    {
+		if (actions.Count < 0) return;
+		for (int i = 0; i < actions.Count + 1; i++)
+		{
+			GameAction action = actions.ElementAt(actions.Count - 1);
+
+			action.Removed(this);
+
+			
+			actionPointsLeft++;
+		}
+		actions.Clear();
+
 	}
 	public void AddActionAIServer(GameAction action)
     {
@@ -359,18 +400,16 @@ public class Character : Ticker
 	}
 	public void ClearActions()
     {
-		for(int i=0; i < actions.Count+1; i++)
-        {
-			RemoveAction();
-			actionPointsLeft++;
-		}
+		ClearActionsServer();
 		for (int i = 0; i < clientActions.Count; i++)
 		{
 			clientActions.ElementAt(i).Removed(this);
 
 		}
-       
+		ghost.Move(posOnGrid);
+		actionPointsLeft = CharacterManager.instance.maxActionPoints;
 		clientActions.Clear();
-
+		
 	}
+
 }

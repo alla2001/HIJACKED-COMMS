@@ -34,7 +34,7 @@ public class Clicker : MonoBehaviour
                     }
                     else
                     {
-						ActionManager.instance.AssigneSelectedAction(assigendCharacter, pos);
+						GameActionManager.instance.AssigneSelectedAction(assigendCharacter, pos);
 					}
 				
 				}
@@ -62,21 +62,21 @@ public class Clicker : MonoBehaviour
 			{
 			
 				GridShaderBinder.instance.cursorPos = pos;
-				ActionManager.instance.HighLightSelectedAction(assigendCharacter, pos);
+				GameActionManager.instance.HighLightSelectedAction(assigendCharacter, pos);
 				
 
             }
             else
             {
 				GridShaderBinder.instance.cursorPos = new Vector2Int(-1, -1);
-				ActionManager.instance.UnHighLightSelectedAction();
+				GameActionManager.instance.UnHighLightSelectedAction();
 			}
            
 			_hitpoint = hit.point;
 			return;
 		}
 		GridShaderBinder.instance.cursorPos = new Vector2Int(-1, -1);
-		ActionManager.instance.UnHighLightSelectedAction();
+		GameActionManager.instance.UnHighLightSelectedAction();
 	}
 
     private void OnDrawGizmos()

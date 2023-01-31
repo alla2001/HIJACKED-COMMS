@@ -10,10 +10,13 @@ public class GridIgnore : MonoBehaviour
     Vector3 topRight;
     public GridManager gridManager;
     GridHilight gh;
-    private List<GridGraph.GridType> points = new List<GridGraph.GridType>();
+    public List<Vector2Int> points = new List<Vector2Int>();
+
+    public static List<GridIgnore> gridIgnores = new List<GridIgnore>();
     // Start is called before the first frame update
     void Start()
     {
+        gridIgnores.Add(this);
         GridShaderBinder.gridHilights.Clear();
          points.Clear();
 
@@ -33,7 +36,7 @@ public class GridIgnore : MonoBehaviour
         {
             for (int y = 0; y < ydiff; y++)
             {
-                points.Add(new GridGraph.GridType { pos = new Vector2Int(blgrid.x + x, blgrid.y + y) });
+                points.Add( new Vector2Int(blgrid.x + x, blgrid.y + y) );
             }
 
         }
@@ -41,7 +44,7 @@ public class GridIgnore : MonoBehaviour
         //GridManager.instance.grid.Walls.AddRange(points);
 
 
-        //gh = new GridHilight { color = new Color(0, 0, 0, 0), points = points };
+        gh = new GridHilight { color = new Color(0, 0, 0, 0), points = points };
         GridShaderBinder.gridHilights.Add(gh);
     }
     /* collider.bounds 
@@ -52,39 +55,39 @@ public class GridIgnore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        points.Clear();
+        //points.Clear();
         
-        GridShaderBinder.gridHilights.Remove(gh);
-        bottomLeft = new Vector3(collider.bounds.center.x - collider.bounds.extents.x, collider.center.y, collider.bounds.center.z - collider.bounds.extents.z);
-        topRight = new Vector3(collider.bounds.center.x + collider.bounds.extents.x, collider.center.y, collider.bounds.center.z + collider.bounds.extents.z);
-        Vector2Int blgrid;
-        Vector2Int trgrid;
-        gridManager.WorldToGrid(bottomLeft, out blgrid);
-        gridManager.WorldToGrid(topRight, out trgrid);
-        int ydiff = trgrid.y - blgrid.y+1;
-        int xdiff = trgrid.x - blgrid.x + 1;
+        //GridShaderBinder.gridHilights.Remove(gh);
+        //bottomLeft = new Vector3(collider.bounds.center.x - collider.bounds.extents.x, collider.center.y, collider.bounds.center.z - collider.bounds.extents.z);
+        //topRight = new Vector3(collider.bounds.center.x + collider.bounds.extents.x, collider.center.y, collider.bounds.center.z + collider.bounds.extents.z);
+        //Vector2Int blgrid;
+        //Vector2Int trgrid;
+        //gridManager.WorldToGrid(bottomLeft, out blgrid);
+        //gridManager.WorldToGrid(topRight, out trgrid);
+        //int ydiff = trgrid.y - blgrid.y+1;
+        //int xdiff = trgrid.x - blgrid.x + 1;
 
 
        
-        for (int x = 0; x < xdiff; x++)
-        {
-            for (int y = 0; y < ydiff; y++)
-            {
-                points.Add(new GridGraph.GridType {pos= new Vector2Int( blgrid.x + x, blgrid.y + y )});
-            }
+        //for (int x = 0; x < xdiff; x++)
+        //{
+        //    for (int y = 0; y < ydiff; y++)
+        //    {
+        //        points.Add(new GridGraph.GridType {pos= new Vector2Int( blgrid.x + x, blgrid.y + y )});
+        //    }
 
-        }
+        //}
         
-            //GridManager.instance.grid.Walls.AddRange(points);
+        //    //GridManager.instance.grid.Walls.AddRange(points);
 
 
-        //gh = new GridHilight { color = new Color(0, 0, 0, 0), points = points };
-        GridShaderBinder.gridHilights.Add(gh);
+        ////gh = new GridHilight { color = new Color(0, 0, 0, 0), points = points };
+        //GridShaderBinder.gridHilights.Add(gh);
 
     }
     private void OnDestroy()
     {
-
+        gridIgnores.Remove(this);
         GridShaderBinder.gridHilights.Remove(gh);
     }
     private void OnDrawGizmos()

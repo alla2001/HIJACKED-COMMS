@@ -8,8 +8,8 @@ public class GameManager : NetworkBehaviour
 {
 	public int planningTime = 15;
 	public int playingTime = 5;
-	public UnityAction startPlaying;
-	public UnityAction startPlanning;
+	public static UnityAction startPlaying;
+	public static UnityAction startPlanning ;
 	public TextMeshProUGUI phaseText;
 	public int TimeLeft { get; private set; }
 	public enum GamePhase
@@ -26,12 +26,23 @@ public class GameManager : NetworkBehaviour
 	private int lastTransitionTick = 0;
 	bool called;
 	bool started;
-    private void Awake()
+	public enum Characters
+	{
+		holok, adamastor, sasha
+	}
+	[SyncVar]
+	public Characters nextCharacter = Characters.holok;
+	private void Awake()
     {
 		if (RefrenceManager.gameManager == null)
+        {
+			print("ADDED");
 			RefrenceManager.gameManager = this;
+		}
+			
 		else Destroy(this);
     }
+
     private void Start()
 	{
 		if (NetworkManager.singleton.numPlayers  >= playersNeeded && isServer)
@@ -72,11 +83,22 @@ public class GameManager : NetworkBehaviour
 				
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action1;
-					phaseText.text = "Playing :";
+					phaseText.text = "PREPERATION PHASE";
 					startPlaying?.Invoke();
 					SetState(currentPhase);
+					return;
 				}
-
+				foreach (Character chara in CharacterManager.instance.allCharacters)
+				{
+					print(chara.name + " " + chara.ready);
+					if (!chara.ready) return;
+				}
+				lastTransitionTick = Tick;
+				currentPhase = GamePhase.Action1;
+				phaseText.text = "ACTION PHASE";
+				startPlaying?.Invoke();
+				SetState(currentPhase);
+				
 				break;
 
 			case GamePhase.Action1:
@@ -85,7 +107,7 @@ public class GameManager : NetworkBehaviour
 					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action2;
-					phaseText.text = "Playing :";
+					phaseText.text = "ACTION PHASE";
 					CharacterManager.instance.RestForAction();
 					SetState(currentPhase);
 				}
@@ -98,7 +120,7 @@ public class GameManager : NetworkBehaviour
 
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Planning;
-					phaseText.text = "Planning :";
+					phaseText.text = "ACTION PHASE";
 					startPlanning?.Invoke();
 					SetState(currentPhase);
 				}
@@ -110,6 +132,11 @@ public class GameManager : NetworkBehaviour
 				break;
 		}
 	}
+	public void StartPlay()
+    {
+		
+
+	}
 	[ClientRpc]
 	public void SetState(GamePhase gamePhase)
     {
@@ -119,7 +146,7 @@ public class GameManager : NetworkBehaviour
 			case GamePhase.Action1:
 
 
-				phaseText.text = "Action 1 :";
+				phaseText.text = "ACTION PHASE";
 				startPlaying?.Invoke();
 					
 
@@ -127,12 +154,12 @@ public class GameManager : NetworkBehaviour
 
 			case GamePhase.Action2:
 
-				phaseText.text = "Action 2 :";
+				phaseText.text = "ACTION PHASE";
 
 				break;
 			case GamePhase.Planning:
 				
-					phaseText.text = "Planning :";
+					phaseText.text = "PREPARATION PHASE";
 					startPlanning?.Invoke();
 				
 

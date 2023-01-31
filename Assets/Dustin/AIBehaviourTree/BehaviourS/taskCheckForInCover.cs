@@ -70,7 +70,7 @@ public class taskCheckForInCover : BehaviourNode
                     if (!tmpV2List.Contains(tmpV2))
                     {
 
-                        if (!Obstical.IsObstacl(tmpV2))
+                        if (!Obstical.IsObstacl(tmpV2)&&!Interactable.IsInteractable(tmpV2))
                         {
                             List<Obstical> obsticals = new List<Obstical>();
                             foreach (Vector2Int direction in GridManager.instance.grid.directions)

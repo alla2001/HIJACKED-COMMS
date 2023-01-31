@@ -13,7 +13,7 @@ namespace BehaviourTree
             _root = SetupTree();
         }
 
-        private void Update()
+        public void Update()
         {
             if (_root != null)
                 _root.Evaluate();

@@ -12,8 +12,9 @@ public class NotificationManager : NetworkBehaviour
     }
     [SerializeField]private GameObject notificationPrefab;
 	[SerializeField] private GameObject pingPrefab;
-	[Command(requiresAuthority = false)]
-	public void NotfyOnCell(Vector2Int cell, string text, Color color)
+
+	[ClientRpc]
+	public void NotfyOnCellRPC(Vector2Int cell, string text, Color color)
 	{
 		GameObject notification = Instantiate(notificationPrefab, GridManager.instance.GridToWorld(cell), Quaternion.identity);
 		notification.GetComponent<NotificationUI>().SetText(text, color);
