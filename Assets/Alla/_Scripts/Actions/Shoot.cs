@@ -19,10 +19,10 @@ public class Shoot : GameAction
 		
 		List<Vector2Int> cells = GridManager.instance.GetCircle(playerCharacter.ghost.posOnGrid, playerCharacter.stats.Range);
 		Vector2Int cell= cells.FirstOrDefault((ele)=> { return (ele.x==selectedCell.x && ele.y == selectedCell.y); });
-		Debug.Log(cell);
+
 		if (cell==null || cell== Vector2Int.zero)
         {
-			
+			Debug.Log("fALSE");
 			return false;
 		}
 		return true; 

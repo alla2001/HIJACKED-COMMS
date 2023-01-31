@@ -338,8 +338,8 @@ public class Character : Ticker
 	public void AddActionShoot(Shoot shoot)
 	{
 
-		
-		
+
+	
 			actions.Enqueue(shoot);
 			shoot.OnAddServer(this);
 			actionPointsLeft--;

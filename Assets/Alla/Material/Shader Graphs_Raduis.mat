@@ -40,5 +40,5 @@ Material:
     - Color_09c84f473e6943cdba4a811e2ee90c32: {r: 0, g: 0.7064569, b: 1, a: 0.30588236}
     - Color_9919bc4d370c4f97bf338a8cfcb25196: {r: 0, g: 1, b: 1, a: 0.64705884}
     - Vector3_65fa672f6be54cb1abfb3687446fe75e: {r: 16.14, g: -0.09, b: -24.03, a: 0}
-    - _Center: {r: 8.699998, g: -0.199, b: -30.9, a: 0}
+    - _Center: {r: 15.539998, g: -0.199, b: -37.739998, a: 0}
   m_BuildTextureStacks: []
