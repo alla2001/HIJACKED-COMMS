@@ -1268,7 +1268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chillum: {fileID: 4604001135071383951}
-  rangeForDetection: 5
+  rangeForDetection: 8
   Randomness: 5
 --- !u!1 &4604001135428798727
 GameObject:

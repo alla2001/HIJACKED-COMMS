@@ -73,7 +73,7 @@ public class GameManager : NetworkBehaviour
 				
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action1;
-					phaseText.text = "Preperation Phase:";
+					phaseText.text = "PREPERATION PHASE";
 					startPlaying?.Invoke();
 					SetState(currentPhase);
 					return;
@@ -85,7 +85,7 @@ public class GameManager : NetworkBehaviour
 				}
 				lastTransitionTick = Tick;
 				currentPhase = GamePhase.Action1;
-				phaseText.text = "Playing :";
+				phaseText.text = "ACTION PHASE";
 				startPlaying?.Invoke();
 				SetState(currentPhase);
 				
@@ -97,7 +97,7 @@ public class GameManager : NetworkBehaviour
 					
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Action2;
-					phaseText.text = "Playing :";
+					phaseText.text = "ACTION PHASE";
 					CharacterManager.instance.RestForAction();
 					SetState(currentPhase);
 				}
@@ -110,7 +110,7 @@ public class GameManager : NetworkBehaviour
 
 					lastTransitionTick = Tick;
 					currentPhase = GamePhase.Planning;
-					phaseText.text = "Planning :";
+					phaseText.text = "ACTION PHASE";
 					startPlanning?.Invoke();
 					SetState(currentPhase);
 				}
@@ -136,7 +136,7 @@ public class GameManager : NetworkBehaviour
 			case GamePhase.Action1:
 
 
-				phaseText.text = "Action 1 :";
+				phaseText.text = "ACTION PHASE";
 				startPlaying?.Invoke();
 					
 
@@ -144,12 +144,12 @@ public class GameManager : NetworkBehaviour
 
 			case GamePhase.Action2:
 
-				phaseText.text = "Action 2 :";
+				phaseText.text = "ACTION PHASE";
 
 				break;
 			case GamePhase.Planning:
 				
-					phaseText.text = "Planning :";
+					phaseText.text = "PREPARATION PHASE";
 					startPlanning?.Invoke();
 				
 

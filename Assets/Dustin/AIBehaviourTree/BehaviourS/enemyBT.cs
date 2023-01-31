@@ -12,19 +12,19 @@ public class enemyBT : BehaveTree
     protected override BehaviourNode SetupTree()
     {
          root = new BehaviourSelector(new List<BehaviourNode>
-        {
-            /*new BehaviourSequence(new List<BehaviourNode>{
-            new taskWaitForEnemy(chillum,rangeForDetection),
-            }),*/
-            new BehaviourSequence(new List<BehaviourNode>
-            {
+         {
+            new BehaviourSequence(new List<BehaviourNode>{
+                new taskWaitForEnemy(chillum,rangeForDetection),
+                new BehaviourSequence(new List<BehaviourNode>
+                {
 
-                new taskCheckForInCover(chillum),
-                new taskCheckForTargetOutOfCover(chillum),
+                    new taskCheckForInCover(chillum),
+                    new taskCheckForTargetOutOfCover(chillum),
 
+                }),
             }),
-           // new taskIdle(),
-        }) ;
+            
+         }) ;
 
         return root;
     }

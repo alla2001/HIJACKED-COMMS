@@ -58,7 +58,12 @@ public class TickManager : NetworkBehaviour
 		if (RefrenceManager.gameManager.currentPhase == GameManager.GamePhase.Planning)
         {
 			timer.text =(RefrenceManager.gameManager.planningTime- (tick - lastTick)).ToString();
-			fill.fillAmount = (float)(tick - lastTick)/ (float)(RefrenceManager.gameManager.planningTime - 1) ;
+            if (fill.fillAmount == 1)
+            {
+				fill.fillAmount = 0;
+            }
+			float amountToFill = (float)(tick - lastTick) / (float)(RefrenceManager.gameManager.planningTime - 1);
+			StartCoroutine("fillImage", amountToFill);
 
 
 		}
@@ -82,5 +87,16 @@ public class TickManager : NetworkBehaviour
 		print("UNPAUSED");
 		StartCoroutine(Ticker());
 		paused = false;
+	}
+	public IEnumerator fillImage(float f)
+    {
+		float difference = (float)(currentTick - lastTick) / (float)(RefrenceManager.gameManager.planningTime - 1) - fill.fillAmount;
+		difference /= 50;
+		for(int i = 0; i < 50; i++)
+        {
+			fill.fillAmount += difference;
+			yield return new WaitForSeconds(0.02f);
+			
+		}
 	}
 }
