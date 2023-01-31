@@ -41,8 +41,7 @@ public class PlayerSetup : NetworkBehaviour
             playerCharacter = character;
             isPlayer = true;
 
-            switch (
-        RefrenceManager.gameManager.nextCharacter)
+            switch (  RefrenceManager.gameManager.nextCharacter)
             {
                 case GameManager.Characters.holok:
                     assosiatedChar = GameManager.Characters.holok;
@@ -67,35 +66,44 @@ public class PlayerSetup : NetworkBehaviour
                 default:
                     break;
             }
+            LoadCharacterCommand();
         }
-        else
+     
+
+    }
+    [ClientRpc]
+    public void LoadCharacterRPC()
+    {
+        switch (
+    assosiatedChar)
         {
-            switch (
-       assosiatedChar)
-            {
-                case GameManager.Characters.holok:
-                  
-                    holok.SetActive(true);
-                    character.animator = holok.GetComponentInChildren<Animator>();
-                 
-                    characterModel = holok;
-                    break;
-                case GameManager.Characters.adamastor:
-               
-                    adamastor.SetActive(true);
-                    character.animator = adamastor.GetComponentInChildren<Animator>();
-                    characterModel = adamastor;
-                    break;
-                case GameManager.Characters.sasha:
-               
-                    sasha.SetActive(true);
-                    character.animator = sasha.GetComponentInChildren<Animator>();
-                    characterModel = sasha;
-                    break;
-                default:
-                    break;
-            }
+            case GameManager.Characters.holok:
+
+                holok.SetActive(true);
+                character.animator = holok.GetComponentInChildren<Animator>();
+
+                characterModel = holok;
+                break;
+            case GameManager.Characters.adamastor:
+
+                adamastor.SetActive(true);
+                character.animator = adamastor.GetComponentInChildren<Animator>();
+                characterModel = adamastor;
+                break;
+            case GameManager.Characters.sasha:
+
+                sasha.SetActive(true);
+                character.animator = sasha.GetComponentInChildren<Animator>();
+                characterModel = sasha;
+                break;
+            default:
+                break;
         }
+    }
+    [Command]
+    public void LoadCharacterCommand()
+    {
+        LoadCharacterRPC();
 
     }
 }
