@@ -166,5 +166,5 @@ public class PlayerSetup : NetworkBehaviour
     //{
     //    LoadCharacterRPC();
 
-    }
+    //}
 }
