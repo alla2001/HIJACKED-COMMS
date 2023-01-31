@@ -56,6 +56,7 @@ public class PlayerSetup : NetworkBehaviour
                     adamastor.SetActive(true);
                     character.animator = adamastor.GetComponentInChildren<Animator>();
                     characterModel = adamastor;
+                    NextCharacterCommand(GameManager.Characters.sasha);
                     break;
                 case GameManager.Characters.sasha:
                     nextCharacter = GameManager.Characters.sasha;
@@ -69,22 +70,24 @@ public class PlayerSetup : NetworkBehaviour
         }
         else
         {
-            switch (nextCharacter)
+            switch (
+        RefrenceManager.gameManager.nextCharacter)
             {
                 case GameManager.Characters.holok:
-                 holok.SetActive(true);
+                    nextCharacter = GameManager.Characters.holok;
+                    holok.SetActive(true);
                     character.animator = holok.GetComponentInChildren<Animator>();
-                    NextCharacterCommand(GameManager.Characters.adamastor);
+                 
                     characterModel = holok;
                     break;
                 case GameManager.Characters.adamastor:
-             
+                    nextCharacter = GameManager.Characters.adamastor;
                     adamastor.SetActive(true);
                     character.animator = adamastor.GetComponentInChildren<Animator>();
                     characterModel = adamastor;
                     break;
                 case GameManager.Characters.sasha:
-        
+                    nextCharacter = GameManager.Characters.sasha;
                     sasha.SetActive(true);
                     character.animator = sasha.GetComponentInChildren<Animator>();
                     characterModel = sasha;
