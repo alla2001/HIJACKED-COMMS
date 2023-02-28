@@ -29,7 +29,7 @@ public class MusicManager : NetworkBehaviour
         RefrenceManager.musicManager = this;
         else
         Destroy(this);
-        GameManager.startPlaying += () => { RefrenceManager.radioControler.OnDone(); radioUI.SetActive(false); };
+        GameManager.startPlaying += () => { RefrenceManager.radioControler.OnDone(); radioUI.SetActive(false); RefrenceManager.radioControler.UI.SetActive(true); };
         ChangeSong(Song.nothing); 
     }
     public void ChangeSong(Song newSong)

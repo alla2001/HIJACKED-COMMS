@@ -20,7 +20,7 @@ public class TelephoneBooth : Interactable
     public override void PreInteract(Character character)
     {
         RefrenceManager.musicManager.radioUI.SetActive(true);
-
+        RefrenceManager.radioControler.UI.SetActive(false);
         RefrenceManager.radioControler.phone = this;
     }
 }

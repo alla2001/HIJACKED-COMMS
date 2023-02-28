@@ -6,7 +6,7 @@ using Mirror;
 public  class Obstical : GridObject
 {
 	public static	List<Obstical> obstacles = new List<Obstical>();
-    public static float angle = 45;
+    public static float angle = 35;
     public CoverType coverType;
     public MoveType nextMove;
     GameAction move;

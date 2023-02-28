@@ -15,7 +15,7 @@ public class RadioControler : NetworkBehaviour
     public Image screen;
     public float angle=10;
     public List<Transform> dots= new List<Transform>();
-
+    public GameObject UI;
     private void Awake()
     {
         if (RefrenceManager.radioControler ==null)
@@ -33,7 +33,16 @@ public class RadioControler : NetworkBehaviour
         }
      
         phone=null;
+        RefrenceManager.radioControler.UI.SetActive(true);
 
+    }
+    private void OnEnable()
+    {
+      
+    }
+    private void OnDisable()
+    {
+       
     }
     public void Update()
     {

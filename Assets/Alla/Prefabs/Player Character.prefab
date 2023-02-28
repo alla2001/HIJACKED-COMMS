@@ -7557,11 +7557,11 @@ MonoBehaviour:
   center: {fileID: 7393588886231093813}
   image: {fileID: 8448954646062777084}
   stats:
-    Movement: 6
-    Accuracy: 6
+    Movement: 5
+    Accuracy: 7
     Range: 5
     Damage: 6
-    Hp: 6
+    Hp: 12
   _finishedActions: 0
   animator: {fileID: 2051376689011546174}
   lazer: {fileID: 7134490780516164225}
