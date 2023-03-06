@@ -9,6 +9,7 @@ public class enemyBT : BehaveTree
     public int rangeForDetection;
     public int Randomness;
     BehaviourNode root;
+
     protected override BehaviourNode SetupTree()
     {
          root = new BehaviourSelector(new List<BehaviourNode>

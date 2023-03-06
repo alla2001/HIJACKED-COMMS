@@ -47,7 +47,6 @@ public class Move : GameAction
 		{
 			return true;
 		}
-		Debug.Log("Notfinished");
 		return false;
 	}
 

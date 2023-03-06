@@ -21,6 +21,7 @@ public class MusicManager : NetworkBehaviour
     public AudioClip blueSong;
     public AudioSource audioSource;
     public delegate void SongDelegate(Song song);
+    public GameObject workaroundShot;
     
     public SongDelegate OnChangeSong;
     private void Awake()
@@ -108,5 +109,10 @@ public class MusicManager : NetworkBehaviour
     public void Stophacking()
     {
         hacking = false;
+    }
+
+    public void shootsound()
+    {
+        Instantiate(workaroundShot);
     }
 }

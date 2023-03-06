@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lazer : MonoBehaviour
+public class soundworkaround : SingletonMonoBehaviour<soundworkaround>
 {
     // Start is called before the first frame update
     void Start()
@@ -13,9 +13,11 @@ public class Lazer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       /* if(RefrenceManager.gameManager.currentPhase == GameManager.GamePhase.Planning)
-        {
-            Destroy(gameObject);
-        }*/
+        
+    }
+
+    public void createShootsound()
+    {
+       
     }
 }

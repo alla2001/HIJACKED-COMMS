@@ -131,7 +131,7 @@ public class Shoot : GameAction
 		}
 
 		shotsleft--;
-
+		RefrenceManager.musicManager.shootsound();
 
 		return;
 	

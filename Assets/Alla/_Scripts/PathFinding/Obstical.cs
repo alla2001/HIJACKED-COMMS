@@ -79,7 +79,7 @@ public  class Obstical : GridObject
     
     public void Do()
     {
-        if (posOnGrid == targetCell) { print("DONE"); finishedMoving = true; return; } 
+        if (posOnGrid == targetCell) {finishedMoving = true; return; } 
         Vector2Int direction= Vector2Int.zero;
         switch (nextMove)
         {

@@ -3,7 +3,13 @@ guid: 5c73d12c5bc72dd45b4bddd229c97fb7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - radioUI: {instanceID: 0}
+  - redSong: {fileID: 8300000, guid: e5dfb4d98f2974848a104b30605552ae, type: 3}
+  - greenSong: {instanceID: 0}
+  - yellowSong: {instanceID: 0}
+  - blueSong: {instanceID: 0}
+  - audioSource: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
